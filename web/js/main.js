@@ -3,6 +3,7 @@
 // js/cases/ (listed in cases.js); this file knows nothing about any story.
 
 import { CASES } from './cases.js';
+import { PHOTOS } from './photos.js';
 import { load, save, remove } from './storage.js';
 
 const LAST_CASE_KEY = 'mm-last-case';
@@ -127,8 +128,10 @@ function renderScene(r) {
   const box = $('scene');
   if (sceneRoom !== r.id) {
     sceneRoom = r.id;
+    const photo = PHOTOS[CASE.id]?.[r.id];
     const draw = CASE.scenes?.[r.id];
-    box.innerHTML = draw ? draw() : '';
+    box.innerHTML = photo ? photoScene(r, photo) : draw ? draw() : '';
+    $('room').style.setProperty('--ratio', photo ? photo.w / photo.h : 16 / 9);
     box.classList.remove('hints');
     $('scene-label').hidden = true;
   }
@@ -139,6 +142,22 @@ function renderScene(r) {
     if (d) done++;
   });
   $('scene-count').textContent = `Examined ${done} of ${r.items.length} things in this room.`;
+}
+
+// A photo with invisible click boxes over the objects in it.
+function photoScene(r, p) {
+  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const box = ([x, y, w, h]) => `<rect class="hot-box" x="${x}" y="${y}" width="${w}" height="${h}" rx="${Math.min(w, h) * .12}"/>`;
+  const items = Object.entries(p.items || {}).map(([id, rect]) => {
+    const it = r.items.find((i) => i.id === id);
+    return it ? `<g class="hot hot-photo" data-item="${id}" data-name="${esc(it.name)}">${box(rect)}</g>` : '';
+  }).join('');
+  const people = Object.entries(p.people || {}).map(([id, rect]) => {
+    const s = suspectById(id);
+    return s ? `<g class="hot hot-photo hot-person" data-person="${id}" data-name="${esc(s.name)}">${box(rect)}</g>` : '';
+  }).join('');
+  return `<svg viewBox="0 0 ${p.w} ${p.h}" xmlns="http://www.w3.org/2000/svg" class="scene-svg" role="img">` +
+    `<image href="${p.src}" width="${p.w}" height="${p.h}"/>${people}${items}</svg>`;
 }
 
 function sceneTarget(e) {

@@ -1,0 +1,173 @@
+I need 32 photorealistic images for a murder-mystery video game, one image per scene in the numbered list below. Please work through the list in order, starting at 1.
+
+For each scene:
+1. Generate one wide landscape image (16:9, or 3:2 if 16:9 isn't available) that follows the scene description and the shared style below.
+2. Check the picture against its "Must show" list. Every item must be clearly visible, because players click on those objects in the game. If anything is missing or hidden, regenerate that picture before moving on.
+3. Name the file exactly as given, for example blackwood-study.jpg.
+4. Save it to my Google Drive, in a folder called "Murder Mystery Photos" (create the folder if it doesn't exist).
+
+Keep going from one scene to the next without waiting for me. If you have to stop, tell me the number and file name of the last image you finished, and when I say "continue", carry on from the next one. If you can't save to Google Drive, tell me once, then show each image so I can download it, and keep going.
+
+Shared style for every image: Photorealistic cinematic still photograph, wide landscape framing (16:9 or 3:2), shot at eye level on a 35mm lens, moody low-key period lighting with deep shadows, fine film grain, highly detailed and historically accurate. Every object listed must be clearly visible, not cut off by the frame and not hidden behind anything, with some space between them. No readable text, no captions, no watermark, no modern objects.
+
+SCENES
+
+1. blackwood-study.jpg (Death at Blackwood Manor: The Study)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: The study of an English country house at night. Rain streams down a tall latched window with dark red curtains on the right. A low fire burns in a stone fireplace on the left with a gold-framed oil portrait above it, and a tall bookcase beside it. In the centre, a large mahogany desk with a lit green-shaded brass lamp. An elderly man in a dark dinner jacket is slumped face-down across the desk, motionless, one arm stretched out across it (no blood, no visible injury). On the desk: an ink blotter with a few shaky scrawled words, a crystal brandy snifter nearly empty with green sediment at the bottom, a wooden letter tray holding letters, and a desk drawer pulled half open with papers inside. A fountain pen lies on the Persian rug.
+Must show: the man at the desk, blotter, brandy glass, desk drawer, letter tray, window, fireplace.
+
+2. blackwood-hall.jpg (Death at Blackwood Manor: The Great Hall)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A stone-flagged great hall of a country house at night. A dark oak staircase rises on the left. Stag antlers and dark oil portraits on the walls. A tall grandfather clock stands against the back wall in the centre. On the right, a small side table holds a 1920s black candlestick telephone. A clear trail of wet, muddy man's boot prints crosses the flagstones in the foreground from a door on the right to a closed door on the left. No people.
+Must show: muddy boot prints on the floor, telephone, grandfather clock.
+
+3. blackwood-drawing.jpg (Death at Blackwood Manor: The Drawing Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A warm lamplit drawing room with dusty-rose striped wallpaper. On the left, an open black grand piano with sheet music on the stand. A tall curtained window in the back wall. In the centre, a woman of about 58 with grey hair in a bun and a navy evening dress sits very straight on a settee. On the right, a man in his fifties with grey temples and a dark suit stands by a lit fireplace. In the foreground, a low table holds a silver coffee tray with a coffee pot and two used cups.
+Must show: piano, coffee tray, the seated woman, the standing man.
+
+4. blackwood-library.jpg (Death at Blackwood Manor: The Library)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A library with shelves of books to the ceiling. A long reading table in front covered with stacks of typed letters and a black typewriter, plus an empty ink bottle and a new ink bottle side by side. A nervous young woman of about 26 with bobbed auburn hair and a plum dress sits behind the table twisting a handkerchief. On the right, a door stands half open onto a lit hallway. A green banker's lamp glows on the table.
+Must show: typed letters, ink bottles, the open door, the young woman.
+
+5. blackwood-billiard.jpg (Death at Blackwood Manor: The Billiard Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A dim billiard room lit by a single green-shaded lamp hanging over a billiard table with the balls still racked and one white ball loose. On the left, a stone fireplace that is cold, with only grey ash in the grate. A cue rack on the back wall. On the right, a handsome man of about 31 with slicked dark hair and a dinner jacket leans on a billiard cue holding a glass of whisky.
+Must show: the cold fireplace, billiard table, the man with the cue.
+
+6. blackwood-pantry.jpg (Death at Blackwood Manor: Butler's Pantry)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A white-tiled butler's pantry with shelves of glassware and silver platters. On the wooden counter: a crystal brandy decanter about a third empty with clear brandy, and an open leather cellar ledger with columns of crossed-out figures. On the right, an elderly butler of about 60 with white hair and a black tailcoat stands by a sink, holding a glass of brandy.
+Must show: brandy decanter, open ledger, the butler.
+
+7. blackwood-bootroom.jpg (Death at Blackwood Manor: The Boot Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A narrow stone boot room by a garden door at night. Coats hang on hooks along the wall, walking sticks and umbrellas stand in a stand, and there is a wooden bench. On the floor in front of the bench, a pair of tall leather riding boots, soaking wet and caked with dark potting soil, with a torn foxglove leaf stuck to one sole. On the right, the garden door stands ajar onto heavy rain and darkness, with a puddle on the flagstones. No people.
+Must show: the riding boots, the garden door.
+
+8. blackwood-greenhouse.jpg (Death at Blackwood Manor: The Greenhouse)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A Victorian glasshouse at night with rain running down the glass panes. On the left, a bench of potted orchids. On the right, tall purple foxglove plants, several stems freshly stripped of their leaves. In the foreground centre, a wooden potting bench holding a stone mortar and pestle full of green plant pulp and a crumpled green-stained square of muslin cloth. A single hanging lamp. No people.
+Must show: orchids, foxglove plants, potting bench with mortar and muslin.
+
+9. blackwood-guest.jpg (Death at Blackwood Manor: Guest Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: A modest guest bedroom at night: a bed on the left, a man's coat over a chair, a curtained window. On the right, a marble-topped washstand with a porcelain jug and a black leather doctor's bag standing open, with a small glass medicine vial sealed with red wax beside it. A bedside lamp glows. No people.
+Must show: the doctor's bag and vial.
+
+10. blackwood-margaret.jpg (Death at Blackwood Manor: Lady Margaret's Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: An elegant pale blue bedroom. On the left, a small writing desk with a leather writing case, a folded letter peeking out of it. A small white medicine cabinet hangs on the wall above it. In the centre, a curtained window at night. On the right, a dressing table with an oval gilt mirror and a vase of red roses. No people.
+Must show: writing case, medicine cabinet.
+
+11. blackwood-victor.jpg (Death at Blackwood Manor: Victor's Room)
+Setting: An English country house on Dartmoor, stormy night, October 1926.
+Scene: An untidy young man's bedroom at night. On the left, a wet dark overcoat thrown over a wooden chair, dripping onto the floor, with a small brown medicine bottle poking out of its pocket. Racing newspapers with pencil marks scattered on the floor in the foreground. On the right, a half-packed open suitcase and an unmade bed. No people.
+Must show: wet overcoat with bottle, racing papers, suitcase.
+
+12. train-crane.jpg (Murder on the Alpine Express: Compartment 7 (Crane))
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: A first-class sleeping compartment with polished walnut panelling. The window is pushed fully down, with snow on the sill and snowy moonlit mountains outside. A lower berth runs along the back wall, where a man lies motionless under a blanket with a small dark stain on it (not graphic). On the right, a closed connecting door with a brass handle. In the foreground centre, a gold pocket watch with smashed glass lies on the carpet. On the left floor, an open leather attaché case with papers. On the brass luggage rack above, a folder of papers. A small gold cufflink glints in the shadow under the berth.
+Must show: the man in the berth, pocket watch, window, connecting door, cufflink under the berth, attaché case, folder on the rack.
+
+13. train-brandt.jpg (Murder on the Alpine Express: Compartment 8 (Brandt))
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: A very neat first-class sleeping compartment with walnut panelling and a snowy window. On the left, a connecting door with a small brass bolt, drawn back, visible above a large steamer trunk pushed against the door, with fresh scrape marks on the floor beside the trunk. A neatly made berth. On a small shelf, a leather tray holding a single gold cufflink. On the right, a washbasin with a mirror and a damp towel. No people.
+Must show: bolt on the connecting door, steamer trunk, shelf with cufflink, washbasin.
+
+14. train-countess.jpg (Murder on the Alpine Express: Compartment 3 (Countess))
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: A luxurious sleeping compartment crowded with hatboxes. On the left, a scarlet silk kimono embroidered with gold dragons hangs on a hook. In the centre, an elegant aristocratic woman in her fifties with silver-blonde hair pinned up, a black dress and a fur stole sits on the berth smoking through a long cigarette holder. A small medicine bottle on a shelf by the window. On the right, the compartment door with a sponge bag hanging from its handle.
+Must show: kimono, the woman, medicine bottle, sponge bag on the door.
+
+15. train-dale.jpg (Murder on the Alpine Express: Compartment 6 (Miss Dale))
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: A plain second-class train compartment with green upholstered bench seats facing each other and a snowy night window. On the right bench, a young woman in her late twenties with a brown bob and a grey travelling costume sits upright with a book open in her lap. A handbag lies on the opposite bench on the left. The left wall is plain wood panelling.
+Must show: the wood-panelled wall, handbag, the woman, her book.
+
+16. train-corridor.jpg (Murder on the Alpine Express: The Corridor)
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: The long narrow corridor of a 1930s sleeping car, seen down its length. Windows on the left with snow drifts pressed against the glass. Compartment doors on the right; the nearest door has a broken brass door chain hanging from it. A framed railway route map hangs on the far end wall. Lamps turned low. No people.
+Must show: the nearest door with the broken chain, windows, route map.
+
+17. train-dining.jpg (Murder on the Alpine Express: The Dining Car)
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: A 1930s dining car with white tablecloths, brass lamps and windows onto snowy mountains. At a table on the right sit two men: a retired British colonel of about 60 with a white moustache and a tweed jacket, and a bespectacled clerk-like man in his forties in a dark suit. On their table, a pencilled bridge score sheet and playing cards. On a separate table on the left, a printed menu card.
+Must show: bridge score sheet, menu, the colonel, the bespectacled man.
+
+18. train-vestibule.jpg (Murder on the Alpine Express: Attendant's Vestibule)
+Setting: A luxury European sleeping-car train snowbound in the Alps, February 1932.
+Scene: The small vestibule at the end of a sleeping car: a black iron stove glowing on the left, a wooden board with keys on hooks and one sealed with red wax, a small desk with an open logbook. In the centre, a sleeping-car attendant of about 40 in a brown uniform and cap. On the right, the outer door stands open onto deep untouched snow and pine trees under moonlight.
+Must show: key board, logbook, the attendant, the snow outside the open door.
+
+19. moor-gate.jpg (The Hound of Greymoor: The Moor Gate)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A low dry-stone wall on open moorland at night under a full moon, with a wooden wicket gate between two granite gateposts. Two small heaps of cigar ash sit on top of the left gatepost. On the muddy path in front, a man in a dark overcoat lies face down, motionless (no injuries). Around him in the mud are enormous dog paw prints and a line of a man's boot prints. On the left, an elderly doctor in a top hat and black coat holds up a lantern. Low mist.
+Must show: the man on the path, paw prints, gatepost with ash, his coat pocket, the doctor.
+
+20. moor-alley.jpg (The Hound of Greymoor: The Yew Alley)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A long straight avenue between tall black clipped yew hedges at night, leading to a small gate in the far distance. A gravel path runs down the middle with a line of footprints in it. A silver-topped walking stick lies on the gravel in the foreground. On the left, a small white wooden summerhouse. Full moon, mist. No people.
+Must show: footprints on the path, walking stick, summerhouse.
+
+21. moor-library.jpg (The Hound of Greymoor: The Library)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A dark oak Victorian library with a portrait of a cold-eyed 18th-century gentleman in a gilt frame and a lit fireplace. On the left, a wooden lectern holding an old handwritten manuscript, and a writing desk with a legal document on it. A broad, sunburnt man of about 35 in brown tweed stands by the fire. A young dark-haired woman of about 30 in a black dress sits by a rainy window on the right.
+Must show: manuscript on the lectern, writing desk, portrait, the man, the woman.
+
+22. moor-hugo.jpg (The Hound of Greymoor: Hugo's Room)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A Victorian guest bedroom at night. On the left, a travelling chest with brass corners and letters lying on top of it. An overcoat hangs on a hook with a leather glove sticking out of its pocket, the fingertips glowing faintly green. On the floor, a pair of muddy boots with coarse brindled dog hairs on them. On the right, a wicker wastepaper basket holding a newspaper with small rectangles cut out of it, and a pair of nail scissors beside it. No people.
+Must show: travelling chest, coat with glowing glove, muddy boots, wastepaper basket with cut newspaper.
+
+23. moor-servants.jpg (The Hound of Greymoor: Servants' Hall)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A stone-walled Victorian servants' hall at night with an iron kitchen range on the left and a long scrubbed wooden table holding a covered food basket. A window looking out over the dark moor has a candle burned down to a stub on the sill. On the right, a side door with muddy boot marks on the doormat. A black-bearded butler in his fifties in a black tailcoat sits hunched by the range.
+Must show: window with candle, side door, food basket, the butler.
+
+24. moor-cottage.jpg (The Hound of Greymoor: Venn's Cottage)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: The outside of a small stone cottage on the edge of the moor at night. A lit window shows glass cases of pinned butterflies. A thin naturalist of about 40 in tweed stands in the lit doorway holding a butterfly net. On the left, a wooden kennel with a huge brindled mastiff asleep in the straw, its muzzle glowing faintly green. On the right, an open wooden shed with a shelf of jars and tins, with one obvious gap where a tin is missing. Moon and mist.
+Must show: kennel with the mastiff, shed shelf, butterfly cases in the window, the naturalist.
+
+25. moor-tor.jpg (The Hound of Greymoor: Black Tor)
+Setting: Dartmoor, Devon, a moonlit misty night in November 1899.
+Scene: A granite tor on the high moor at night: a pile of stacked, weathered granite boulders on the right. In the foreground, a sheltered hollow with a dead campfire, a blanket and bread crusts, and a bundle of old clothes beside it. Far away on the left, the tiny lit windows of a distant country house. Full moon, mist. No people.
+Must show: the camp in the hollow, bundle of clothes, the distant lights.
+
+26. island-drawing.jpg (The Guests of Gull Rock: The Drawing Room)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: A white art deco drawing room at night with tall windows onto a stormy sea. A fireplace with a white mantelpiece; a whisky tumbler stands on the mantelpiece. On the right, a wind-up gramophone with a brass horn and a record on it, with a small typed card propped beside it. On the left, a drinks trolley with a crystal whisky decanter and glasses. A man in a dinner jacket lies motionless on the hearthrug (no injuries). A grey-haired doctor in his fifties in a dark suit sits in an armchair on the right.
+Must show: the man on the rug, glass on the mantelpiece, drinks trolley, gramophone, typed card, the doctor.
+
+27. island-dining.jpg (The Guests of Gull Rock: The Dining Room)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: An art deco hotel dining room at night with a long table not yet cleared, candles burning. On a sideboard on the left, a row of five small white china seagull figurines, and a sixth lies broken on the floor. On a small side table on the right, a hotel register lies open. A young woman in her late twenties with a dark bob and a navy dress sits alone at the far end of the table. Storm outside the window.
+Must show: china gulls, dinner table, hotel register, the young woman.
+
+28. island-library.jpg (The Guests of Gull Rock: The Library)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: A small hotel library with bookshelves on both sides and a big window onto a stormy sea. On the left, a table with old sea charts spread out. On the right, a lectern holding a new hardback novel with a blue cover. A retired army major of about 60 with a white moustache and a tweed suit stands at the window with his hands behind his back.
+Must show: sea charts, the novel on the lectern, the major.
+
+29. island-kitchen.jpg (The Guests of Gull Rock: The Kitchen)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: A 1930s hotel kitchen with an iron range, copper pans and a blue-painted dresser full of plates. A typed letter is propped on the dresser. A pair of broad, flat-heeled, worn working boots stands by the range. A housekeeper in her fifties with grey hair in a bun and a white apron stands at the scrubbed table with a teapot.
+Must show: letter on the dresser, working boots, the housekeeper.
+
+30. island-shed.jpg (The Guests of Gull Rock: The Garden Shed)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: The inside of a wooden garden shed at night, rain on the tin roof, lit by a hanging lamp. On a shelf, a yellow tin marked with a skull-and-crossbones poison symbol, its lid off, with a spoon beside it. On the floor below, spilled sawdust holding one clear print of a small woman's heeled shoe. Garden tools lean against the wall on the left. No people.
+Must show: poison tin, sawdust with the shoe print, garden tools.
+
+31. island-ruth.jpg (The Guests of Gull Rock: Miss Carey's Room)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: A small, neat sea-facing hotel bedroom at night. On the right, a desk with a portable typewriter and a sheet of paper in it. In the centre, an open suitcase on a luggage rack with a photograph of a young man lying among folded clothes. On the left, a bed and a bedside table with a small framed watercolour of a seaside pier. A pair of navy court shoes with narrow heels on the floor. No people.
+Must show: typewriter, open suitcase with photograph, picture frame, shoes.
+
+32. island-jetty.jpg (The Guests of Gull Rock: The Jetty)
+Setting: An art deco island hotel off the Devon coast, a stormy night in August 1938.
+Scene: A wooden jetty at night in a storm, rough white-capped sea on both sides, the faint lights of the mainland far away. A storm lantern glows on the planks. A typed note is nailed to a wooden post on the right. A lean man in his forties in a yellow oilskin coat and sou'wester stands in the centre smoking.
+Must show: note on the post, the sea, the man in the oilskin.

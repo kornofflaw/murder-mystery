@@ -38,7 +38,13 @@ Deployed on Vercel; a push to `main` deploys (project root directory = `web`).
    `person(id, ...)`. Art is drawn in code as SVG (no image files yet); the
    canvas is 1600x900 with the floor line at y=640. The headless check must
    confirm every item and person has a visible, clickable area.
-5. **No build step.** Plain ES modules served as static files. No runtime CDN
+5. **Photos replace drawings room by room.** Andrew makes the images in
+   ChatGPT and they arrive in the Google Drive folder "Murder Mystery Photos"
+   (Claude reads it with the Google Drive connector) or in web/photos/.
+   Claude looks at each photo, sets click boxes (image pixels) in photos.js,
+   and checks every item is actually visible in the picture. Keep images
+   under ~500 KB (resize to 1600px wide, JPEG).
+6. **No build step.** Plain ES modules served as static files. No runtime CDN
    loads; if a library is ever needed, vendor it into `web/vendor/`.
 
 ## Layout
@@ -56,6 +62,11 @@ web/               the app; deploy this folder as-is
     island.js      "The Guests of Gull Rock" (island hotel; after And Then There Were None)
     *-scenes.js    that case's room illustrations (SVG drawn in code, one per room)
   js/art.js        shared drawing helpers: walls, floors, windows, sky, fog, furniture, figures
+  js/photos.js     photo rooms: image file + click boxes per item/person; replaces the drawing
+  photos/          room photos (<case>-<room>.jpg), made by Andrew in ChatGPT
+tools/             not deployed
+  photo-prompts.html            prompt page (published as a private artifact)
+  chatgpt-all-in-one-prompt.txt the same 32 scene prompts as one ChatGPT prompt
   js/storage.js    safe localStorage helpers
 ```
 

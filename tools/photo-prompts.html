@@ -1,0 +1,254 @@
+<title>Crime Scene Photo Prompts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  :root {
+    --bg: #eceee9; --card: #ffffff; --ink: #1f2421; --muted: #5d6862; --line: #d3d8d2;
+    --accent: #8e1f1f; --accent-ink: #ffffff; --done: #2f6b48; --chip: #e2e6e0;
+    --serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #141715; --card: #1c211e; --ink: #e5e9e4; --muted: #9aa69f; --line: #2d3430;
+      --accent: #d0645a; --accent-ink: #1a0d0b; --done: #6fbf8e; --chip: #262c28;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #141715; --card: #1c211e; --ink: #e5e9e4; --muted: #9aa69f; --line: #2d3430;
+    --accent: #d0645a; --accent-ink: #1a0d0b; --done: #6fbf8e; --chip: #262c28;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--sans); padding-inline: 16px; padding-block: 32px 64px; }
+  .wrap { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
+  h1, h2 { font-family: var(--serif); font-weight: 400; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(30px, 5vw, 42px); line-height: 1.1; }
+  h2 { font-size: 24px; }
+  .eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 8px; }
+  .lede { color: var(--muted); max-width: 62ch; margin: 12px 0 0; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; counter-increment: s; }
+  .steps li::before { content: counter(s); display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .steps b { display: block; margin-bottom: 2px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 14px; }
+  code, .file { font-family: var(--mono); font-size: 13px; }
+  a { color: var(--accent); }
+  .case { display: flex; flex-direction: column; gap: 12px; }
+  .case-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+  .case-head .meta { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .shot { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; align-items: start; }
+  .shot.is-done { opacity: .62; }
+  .shot .title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .shot .room { font-weight: 600; }
+  .shot .file { background: var(--chip); padding: 1px 7px; border-radius: 4px; }
+  .shot .prompt { grid-column: 1 / -1; margin: 0; color: var(--ink); font-size: 14px; max-width: 72ch; }
+  .shot .must { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 13px; }
+  .shot .must b { color: var(--ink); font-weight: 600; }
+  .controls { display: flex; gap: 8px; align-items: center; }
+  button.copy { font: 600 13px var(--sans); background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 7px 14px; cursor: pointer; min-width: 92px; }
+  button.copy:focus-visible, .done-box input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .done-box { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+  .done-box input { accent-color: var(--done); width: 16px; height: 16px; }
+  .note { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; font-size: 14px; color: var(--muted); }
+  .note b { color: var(--ink); }
+  .master { display: flex; flex-direction: column; gap: 14px; }
+  button.copy.big { font-size: 15px; padding: 11px 20px; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+  summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+  pre { white-space: pre-wrap; font: 12.5px/1.5 var(--mono); max-height: 420px; overflow: auto; margin: 10px 0 0; color: var(--muted); }
+  @media (max-width: 520px) { .shot { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Murder Mystery · photo pass</p>
+    <h1>Crime scene photo prompts</h1>
+    <p class="lede">32 rooms across the four cases. Each scene names every object you can click in that room, so the pictures must show them all. Pictures go into a Google Drive folder called <b>Murder Mystery Photos</b>, and Claude takes them from there.</p>
+  </header>
+
+  <section class="master" aria-labelledby="master-h">
+    <div class="case-head"><h2 id="master-h">All 32 in one go</h2><span class="meta" id="master-size"></span></div>
+    <ol class="steps">
+      <li><b>Copy the all-in-one prompt</b><p>Paste it into a new ChatGPT chat. Turn on Google Drive in ChatGPT first if it asks.</p></li>
+      <li><b>Keep it going</b><p>ChatGPT may stop after a few pictures. Type <code>continue</code> and it picks up at the next one.</p></li>
+      <li><b>Check each picture</b><p>Every item in its “Must show” list should be visible. If one is missing, say which and ask it to redo that picture.</p></li>
+      <li><b>Tell Claude</b><p>When a batch is in the Drive folder, tell Claude. Claude marks the click areas and switches those rooms to photos.</p></li>
+    </ol>
+    <div class="controls"><button class="copy big" type="button" id="copy-master">Copy all-in-one prompt</button></div>
+    <details><summary>Show the full prompt</summary><pre id="master-text"></pre></details>
+    <div class="note"><b>If ChatGPT can’t save to Google Drive,</b> download each picture from the chat (keep the file name it gives) and drag them into a Drive folder named <b>Murder Mystery Photos</b> yourself. The single-room prompts below are there if you need to redo one picture.</div>
+  </section>
+
+  <div class="case-head"><h2>One room at a time</h2><span class="meta">for redoing a single picture</span></div>
+  <div id="cases"></div>
+</div>
+
+<script>
+const STYLE = 'Photorealistic cinematic still photograph, wide landscape framing (16:9 or 3:2), shot at eye level on a 35mm lens, moody low-key period lighting with deep shadows, fine film grain, highly detailed and historically accurate. Every object listed must be clearly visible, not cut off by the frame and not hidden behind anything, with some space between them. No readable text, no captions, no watermark, no modern objects.';
+
+const CASES = [
+  { name: 'Death at Blackwood Manor', era: 'An English country house on Dartmoor, stormy night, October 1926.', shots: [
+    ['blackwood-study', 'The Study', 'The study of an English country house at night. Rain streams down a tall latched window with dark red curtains on the right. A low fire burns in a stone fireplace on the left with a gold-framed oil portrait above it, and a tall bookcase beside it. In the centre, a large mahogany desk with a lit green-shaded brass lamp. An elderly man in a dark dinner jacket is slumped face-down across the desk, motionless, one arm stretched out across it (no blood, no visible injury). On the desk: an ink blotter with a few shaky scrawled words, a crystal brandy snifter nearly empty with green sediment at the bottom, a wooden letter tray holding letters, and a desk drawer pulled half open with papers inside. A fountain pen lies on the Persian rug.',
+      'the man at the desk, blotter, brandy glass, desk drawer, letter tray, window, fireplace'],
+    ['blackwood-hall', 'The Great Hall', 'A stone-flagged great hall of a country house at night. A dark oak staircase rises on the left. Stag antlers and dark oil portraits on the walls. A tall grandfather clock stands against the back wall in the centre. On the right, a small side table holds a 1920s black candlestick telephone. A clear trail of wet, muddy man\'s boot prints crosses the flagstones in the foreground from a door on the right to a closed door on the left. No people.',
+      'muddy boot prints on the floor, telephone, grandfather clock'],
+    ['blackwood-drawing', 'The Drawing Room', 'A warm lamplit drawing room with dusty-rose striped wallpaper. On the left, an open black grand piano with sheet music on the stand. A tall curtained window in the back wall. In the centre, a woman of about 58 with grey hair in a bun and a navy evening dress sits very straight on a settee. On the right, a man in his fifties with grey temples and a dark suit stands by a lit fireplace. In the foreground, a low table holds a silver coffee tray with a coffee pot and two used cups.',
+      'piano, coffee tray, the seated woman, the standing man'],
+    ['blackwood-library', 'The Library', 'A library with shelves of books to the ceiling. A long reading table in front covered with stacks of typed letters and a black typewriter, plus an empty ink bottle and a new ink bottle side by side. A nervous young woman of about 26 with bobbed auburn hair and a plum dress sits behind the table twisting a handkerchief. On the right, a door stands half open onto a lit hallway. A green banker\'s lamp glows on the table.',
+      'typed letters, ink bottles, the open door, the young woman'],
+    ['blackwood-billiard', 'The Billiard Room', 'A dim billiard room lit by a single green-shaded lamp hanging over a billiard table with the balls still racked and one white ball loose. On the left, a stone fireplace that is cold, with only grey ash in the grate. A cue rack on the back wall. On the right, a handsome man of about 31 with slicked dark hair and a dinner jacket leans on a billiard cue holding a glass of whisky.',
+      'the cold fireplace, billiard table, the man with the cue'],
+    ['blackwood-pantry', 'Butler\'s Pantry', 'A white-tiled butler\'s pantry with shelves of glassware and silver platters. On the wooden counter: a crystal brandy decanter about a third empty with clear brandy, and an open leather cellar ledger with columns of crossed-out figures. On the right, an elderly butler of about 60 with white hair and a black tailcoat stands by a sink, holding a glass of brandy.',
+      'brandy decanter, open ledger, the butler'],
+    ['blackwood-bootroom', 'The Boot Room', 'A narrow stone boot room by a garden door at night. Coats hang on hooks along the wall, walking sticks and umbrellas stand in a stand, and there is a wooden bench. On the floor in front of the bench, a pair of tall leather riding boots, soaking wet and caked with dark potting soil, with a torn foxglove leaf stuck to one sole. On the right, the garden door stands ajar onto heavy rain and darkness, with a puddle on the flagstones. No people.',
+      'the riding boots, the garden door'],
+    ['blackwood-greenhouse', 'The Greenhouse', 'A Victorian glasshouse at night with rain running down the glass panes. On the left, a bench of potted orchids. On the right, tall purple foxglove plants, several stems freshly stripped of their leaves. In the foreground centre, a wooden potting bench holding a stone mortar and pestle full of green plant pulp and a crumpled green-stained square of muslin cloth. A single hanging lamp. No people.',
+      'orchids, foxglove plants, potting bench with mortar and muslin'],
+    ['blackwood-guest', 'Guest Room', 'A modest guest bedroom at night: a bed on the left, a man\'s coat over a chair, a curtained window. On the right, a marble-topped washstand with a porcelain jug and a black leather doctor\'s bag standing open, with a small glass medicine vial sealed with red wax beside it. A bedside lamp glows. No people.',
+      'the doctor\'s bag and vial'],
+    ['blackwood-margaret', 'Lady Margaret\'s Room', 'An elegant pale blue bedroom. On the left, a small writing desk with a leather writing case, a folded letter peeking out of it. A small white medicine cabinet hangs on the wall above it. In the centre, a curtained window at night. On the right, a dressing table with an oval gilt mirror and a vase of red roses. No people.',
+      'writing case, medicine cabinet'],
+    ['blackwood-victor', 'Victor\'s Room', 'An untidy young man\'s bedroom at night. On the left, a wet dark overcoat thrown over a wooden chair, dripping onto the floor, with a small brown medicine bottle poking out of its pocket. Racing newspapers with pencil marks scattered on the floor in the foreground. On the right, a half-packed open suitcase and an unmade bed. No people.',
+      'wet overcoat with bottle, racing papers, suitcase'],
+  ]},
+  { name: 'Murder on the Alpine Express', era: 'A luxury European sleeping-car train snowbound in the Alps, February 1932.', shots: [
+    ['train-crane', 'Compartment 7 (Crane)', 'A first-class sleeping compartment with polished walnut panelling. The window is pushed fully down, with snow on the sill and snowy moonlit mountains outside. A lower berth runs along the back wall, where a man lies motionless under a blanket with a small dark stain on it (not graphic). On the right, a closed connecting door with a brass handle. In the foreground centre, a gold pocket watch with smashed glass lies on the carpet. On the left floor, an open leather attaché case with papers. On the brass luggage rack above, a folder of papers. A small gold cufflink glints in the shadow under the berth.',
+      'the man in the berth, pocket watch, window, connecting door, cufflink under the berth, attaché case, folder on the rack'],
+    ['train-brandt', 'Compartment 8 (Brandt)', 'A very neat first-class sleeping compartment with walnut panelling and a snowy window. On the left, a connecting door with a small brass bolt, drawn back, visible above a large steamer trunk pushed against the door, with fresh scrape marks on the floor beside the trunk. A neatly made berth. On a small shelf, a leather tray holding a single gold cufflink. On the right, a washbasin with a mirror and a damp towel. No people.',
+      'bolt on the connecting door, steamer trunk, shelf with cufflink, washbasin'],
+    ['train-countess', 'Compartment 3 (Countess)', 'A luxurious sleeping compartment crowded with hatboxes. On the left, a scarlet silk kimono embroidered with gold dragons hangs on a hook. In the centre, an elegant aristocratic woman in her fifties with silver-blonde hair pinned up, a black dress and a fur stole sits on the berth smoking through a long cigarette holder. A small medicine bottle on a shelf by the window. On the right, the compartment door with a sponge bag hanging from its handle.',
+      'kimono, the woman, medicine bottle, sponge bag on the door'],
+    ['train-dale', 'Compartment 6 (Miss Dale)', 'A plain second-class train compartment with green upholstered bench seats facing each other and a snowy night window. On the right bench, a young woman in her late twenties with a brown bob and a grey travelling costume sits upright with a book open in her lap. A handbag lies on the opposite bench on the left. The left wall is plain wood panelling.',
+      'the wood-panelled wall, handbag, the woman, her book'],
+    ['train-corridor', 'The Corridor', 'The long narrow corridor of a 1930s sleeping car, seen down its length. Windows on the left with snow drifts pressed against the glass. Compartment doors on the right; the nearest door has a broken brass door chain hanging from it. A framed railway route map hangs on the far end wall. Lamps turned low. No people.',
+      'the nearest door with the broken chain, windows, route map'],
+    ['train-dining', 'The Dining Car', 'A 1930s dining car with white tablecloths, brass lamps and windows onto snowy mountains. At a table on the right sit two men: a retired British colonel of about 60 with a white moustache and a tweed jacket, and a bespectacled clerk-like man in his forties in a dark suit. On their table, a pencilled bridge score sheet and playing cards. On a separate table on the left, a printed menu card.',
+      'bridge score sheet, menu, the colonel, the bespectacled man'],
+    ['train-vestibule', 'Attendant\'s Vestibule', 'The small vestibule at the end of a sleeping car: a black iron stove glowing on the left, a wooden board with keys on hooks and one sealed with red wax, a small desk with an open logbook. In the centre, a sleeping-car attendant of about 40 in a brown uniform and cap. On the right, the outer door stands open onto deep untouched snow and pine trees under moonlight.',
+      'key board, logbook, the attendant, the snow outside the open door'],
+  ]},
+  { name: 'The Hound of Greymoor', era: 'Dartmoor, Devon, a moonlit misty night in November 1899.', shots: [
+    ['moor-gate', 'The Moor Gate', 'A low dry-stone wall on open moorland at night under a full moon, with a wooden wicket gate between two granite gateposts. Two small heaps of cigar ash sit on top of the left gatepost. On the muddy path in front, a man in a dark overcoat lies face down, motionless (no injuries). Around him in the mud are enormous dog paw prints and a line of a man\'s boot prints. On the left, an elderly doctor in a top hat and black coat holds up a lantern. Low mist.',
+      'the man on the path, paw prints, gatepost with ash, his coat pocket, the doctor'],
+    ['moor-alley', 'The Yew Alley', 'A long straight avenue between tall black clipped yew hedges at night, leading to a small gate in the far distance. A gravel path runs down the middle with a line of footprints in it. A silver-topped walking stick lies on the gravel in the foreground. On the left, a small white wooden summerhouse. Full moon, mist. No people.',
+      'footprints on the path, walking stick, summerhouse'],
+    ['moor-library', 'The Library', 'A dark oak Victorian library with a portrait of a cold-eyed 18th-century gentleman in a gilt frame and a lit fireplace. On the left, a wooden lectern holding an old handwritten manuscript, and a writing desk with a legal document on it. A broad, sunburnt man of about 35 in brown tweed stands by the fire. A young dark-haired woman of about 30 in a black dress sits by a rainy window on the right.',
+      'manuscript on the lectern, writing desk, portrait, the man, the woman'],
+    ['moor-hugo', 'Hugo\'s Room', 'A Victorian guest bedroom at night. On the left, a travelling chest with brass corners and letters lying on top of it. An overcoat hangs on a hook with a leather glove sticking out of its pocket, the fingertips glowing faintly green. On the floor, a pair of muddy boots with coarse brindled dog hairs on them. On the right, a wicker wastepaper basket holding a newspaper with small rectangles cut out of it, and a pair of nail scissors beside it. No people.',
+      'travelling chest, coat with glowing glove, muddy boots, wastepaper basket with cut newspaper'],
+    ['moor-servants', 'Servants\' Hall', 'A stone-walled Victorian servants\' hall at night with an iron kitchen range on the left and a long scrubbed wooden table holding a covered food basket. A window looking out over the dark moor has a candle burned down to a stub on the sill. On the right, a side door with muddy boot marks on the doormat. A black-bearded butler in his fifties in a black tailcoat sits hunched by the range.',
+      'window with candle, side door, food basket, the butler'],
+    ['moor-cottage', 'Venn\'s Cottage', 'The outside of a small stone cottage on the edge of the moor at night. A lit window shows glass cases of pinned butterflies. A thin naturalist of about 40 in tweed stands in the lit doorway holding a butterfly net. On the left, a wooden kennel with a huge brindled mastiff asleep in the straw, its muzzle glowing faintly green. On the right, an open wooden shed with a shelf of jars and tins, with one obvious gap where a tin is missing. Moon and mist.',
+      'kennel with the mastiff, shed shelf, butterfly cases in the window, the naturalist'],
+    ['moor-tor', 'Black Tor', 'A granite tor on the high moor at night: a pile of stacked, weathered granite boulders on the right. In the foreground, a sheltered hollow with a dead campfire, a blanket and bread crusts, and a bundle of old clothes beside it. Far away on the left, the tiny lit windows of a distant country house. Full moon, mist. No people.',
+      'the camp in the hollow, bundle of clothes, the distant lights'],
+  ]},
+  { name: 'The Guests of Gull Rock', era: 'An art deco island hotel off the Devon coast, a stormy night in August 1938.', shots: [
+    ['island-drawing', 'The Drawing Room', 'A white art deco drawing room at night with tall windows onto a stormy sea. A fireplace with a white mantelpiece; a whisky tumbler stands on the mantelpiece. On the right, a wind-up gramophone with a brass horn and a record on it, with a small typed card propped beside it. On the left, a drinks trolley with a crystal whisky decanter and glasses. A man in a dinner jacket lies motionless on the hearthrug (no injuries). A grey-haired doctor in his fifties in a dark suit sits in an armchair on the right.',
+      'the man on the rug, glass on the mantelpiece, drinks trolley, gramophone, typed card, the doctor'],
+    ['island-dining', 'The Dining Room', 'An art deco hotel dining room at night with a long table not yet cleared, candles burning. On a sideboard on the left, a row of five small white china seagull figurines, and a sixth lies broken on the floor. On a small side table on the right, a hotel register lies open. A young woman in her late twenties with a dark bob and a navy dress sits alone at the far end of the table. Storm outside the window.',
+      'china gulls, dinner table, hotel register, the young woman'],
+    ['island-library', 'The Library', 'A small hotel library with bookshelves on both sides and a big window onto a stormy sea. On the left, a table with old sea charts spread out. On the right, a lectern holding a new hardback novel with a blue cover. A retired army major of about 60 with a white moustache and a tweed suit stands at the window with his hands behind his back.',
+      'sea charts, the novel on the lectern, the major'],
+    ['island-kitchen', 'The Kitchen', 'A 1930s hotel kitchen with an iron range, copper pans and a blue-painted dresser full of plates. A typed letter is propped on the dresser. A pair of broad, flat-heeled, worn working boots stands by the range. A housekeeper in her fifties with grey hair in a bun and a white apron stands at the scrubbed table with a teapot.',
+      'letter on the dresser, working boots, the housekeeper'],
+    ['island-shed', 'The Garden Shed', 'The inside of a wooden garden shed at night, rain on the tin roof, lit by a hanging lamp. On a shelf, a yellow tin marked with a skull-and-crossbones poison symbol, its lid off, with a spoon beside it. On the floor below, spilled sawdust holding one clear print of a small woman\'s heeled shoe. Garden tools lean against the wall on the left. No people.',
+      'poison tin, sawdust with the shoe print, garden tools'],
+    ['island-ruth', 'Miss Carey\'s Room', 'A small, neat sea-facing hotel bedroom at night. On the right, a desk with a portable typewriter and a sheet of paper in it. In the centre, an open suitcase on a luggage rack with a photograph of a young man lying among folded clothes. On the left, a bed and a bedside table with a small framed watercolour of a seaside pier. A pair of navy court shoes with narrow heels on the floor. No people.',
+      'typewriter, open suitcase with photograph, picture frame, shoes'],
+    ['island-jetty', 'The Jetty', 'A wooden jetty at night in a storm, rough white-capped sea on both sides, the faint lights of the mainland far away. A storm lantern glows on the planks. A typed note is nailed to a wooden post on the right. A lean man in his forties in a yellow oilskin coat and sou\'wester stands in the centre smoking.',
+      'note on the post, the sea, the man in the oilskin'],
+  ]},
+];
+
+const TOTAL = CASES.reduce((n, c) => n + c.shots.length, 0);
+function masterPrompt() {
+  let n = 0;
+  const scenes = CASES.map((c) => c.shots.map(([file, room, text, must]) =>
+    `${++n}. ${file}.jpg (${c.name}: ${room})\nSetting: ${c.era}\nScene: ${text}\nMust show: ${must}.`).join('\n\n')).join('\n\n');
+  return `I need ${TOTAL} photorealistic images for a murder-mystery video game, one image per scene in the numbered list below. Please work through the list in order, starting at 1.
+
+For each scene:
+1. Generate one wide landscape image (16:9, or 3:2 if 16:9 isn't available) that follows the scene description and the shared style below.
+2. Check the picture against its "Must show" list. Every item must be clearly visible, because players click on those objects in the game. If anything is missing or hidden, regenerate that picture before moving on.
+3. Name the file exactly as given, for example blackwood-study.jpg.
+4. Save it to my Google Drive, in a folder called "Murder Mystery Photos" (create the folder if it doesn't exist).
+
+Keep going from one scene to the next without waiting for me. If you have to stop, tell me the number and file name of the last image you finished, and when I say "continue", carry on from the next one. If you can't save to Google Drive, tell me once, then show each image so I can download it, and keep going.
+
+Shared style for every image: ${STYLE}
+
+SCENES
+
+${scenes}`;
+}
+const MASTER = masterPrompt();
+document.getElementById('master-text').textContent = MASTER;
+document.getElementById('master-size').textContent = `${TOTAL} pictures`;
+const mbtn = document.getElementById('copy-master');
+mbtn.addEventListener('click', () => {
+  const ok = () => { mbtn.textContent = 'Copied'; setTimeout(() => { mbtn.textContent = 'Copy all-in-one prompt'; }, 1800); };
+  const fallback = () => {
+    const d = document.querySelector('details'); d.open = true;
+    const r = document.createRange(); r.selectNodeContents(document.getElementById('master-text'));
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    mbtn.textContent = 'Selected: press Ctrl+C';
+  };
+  try { navigator.clipboard.writeText(MASTER).then(ok, fallback); } catch { fallback(); }
+});
+
+let done = {};
+try { done = JSON.parse(localStorage.getItem('mm-photo-done') || '{}'); } catch { done = {}; }
+const saveDone = () => { try { localStorage.setItem('mm-photo-done', JSON.stringify(done)); } catch {} };
+
+const root = document.getElementById('cases');
+function render() {
+  root.replaceChildren();
+  root.className = 'wrap';
+  root.style.padding = '0';
+  for (const c of CASES) {
+    const sec = document.createElement('section');
+    sec.className = 'case';
+    const n = c.shots.filter((s) => done[s[0]]).length;
+    sec.innerHTML = `<div class="case-head"><h2></h2><span class="meta">${n} of ${c.shots.length} done</span></div>`;
+    sec.querySelector('h2').textContent = c.name;
+    for (const [file, room, text, must] of c.shots) {
+      const full = `${c.era} ${text} ${STYLE}`;
+      const card = document.createElement('article');
+      card.className = 'shot' + (done[file] ? ' is-done' : '');
+      card.innerHTML = `
+        <div class="title"><span class="room"></span><span class="file">${file}.jpg</span></div>
+        <div class="controls">
+          <button class="copy" type="button">Copy prompt</button>
+          <label class="done-box"><input type="checkbox" id="done-${file}"> Done</label>
+        </div>
+        <p class="prompt"></p>
+        <p class="must"><b>Must show:</b> </p>`;
+      card.querySelector('.room').textContent = room;
+      card.querySelector('.prompt').textContent = text;
+      card.querySelector('.must').append(must);
+      const box = card.querySelector('input');
+      box.checked = !!done[file];
+      box.addEventListener('change', () => { done[file] = box.checked; saveDone(); render(); });
+      const btn = card.querySelector('.copy');
+      btn.addEventListener('click', () => {
+        const ok = () => { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = 'Copy prompt'; }, 1600); };
+        const fallback = () => {
+          const p = card.querySelector('.prompt');
+          p.textContent = full;
+          const r = document.createRange(); r.selectNodeContents(p);
+          const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+          btn.textContent = 'Press Ctrl+C';
+        };
+        try { navigator.clipboard.writeText(full).then(ok, fallback); } catch { fallback(); }
+      });
+      sec.append(card);
+    }
+    root.append(sec);
+  }
+}
+render();
+</script>

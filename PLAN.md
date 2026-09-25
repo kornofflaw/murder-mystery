@@ -16,6 +16,12 @@
   the top bar; each case saves separately and shows New / In progress /
   Solved on the picker.
 
+- **v0.4 (in progress): photorealistic rooms.** The engine shows a photo with
+  invisible click boxes when a room has one in js/photos.js, else the
+  drawing. Andrew is generating the 32 photos in ChatGPT using the prompt
+  page (tools/photo-prompts.html, published as a private artifact), saved to
+  Google Drive "Murder Mystery Photos". Next: pull them, resize, mark boxes.
+
 ## Next ideas (Andrew picks the priority)
 - Richer art: painted/AI-generated room images or suspect portraits (currently
   simple flat SVG drawings and monogram circles). Would need image files and
@@ -32,6 +38,8 @@
   root directory `web`, no build command. Push to `main` deploys.
 
 ## Changelog
+- 2026-09-25: Photo room support (photos.js, hover/hint boxes, frame follows
+  the photo's shape). Prompt page + all-in-one ChatGPT prompt for 32 rooms.
 - 2026-09-25: Three new cases inspired by famous novels (train, moor, island),
   case picker, per-case saves, engine moved to support many cases
   (js/cases/). All four cases play-tested headless: every clue and question
