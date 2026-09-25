@@ -10,13 +10,19 @@
   the picture to examine them, click people to question them. Hover shows a
   label, "Highlight things to examine" pulses anything not yet looked at.
 
+- **v0.3: four cases and a case picker.** New: "Murder on the Alpine Express"
+  (train), "The Hound of Greymoor" (moor), "The Guests of Gull Rock" (island),
+  each 7 illustrated locations, 5 suspects, 25-31 clues. "Cases" button in
+  the top bar; each case saves separately and shows New / In progress /
+  Solved on the picker.
+
 ## Next ideas (Andrew picks the priority)
 - Richer art: painted/AI-generated room images or suspect portraits (currently
   simple flat SVG drawings and monogram circles). Would need image files and
   a credits list.
 - Sound: rain, clock, music (generated or licensed; keep sources listed).
 - A floor-plan map instead of the room list.
-- More cases, and a case picker on the start screen.
+- More cases (the picker takes any number).
 - Randomised cases (culprit/motive shuffled from a template) for replay.
 - "Present evidence" mechanic: pick a clue from the notebook to show a suspect.
 - Hints for stuck players.
@@ -26,6 +32,10 @@
   root directory `web`, no build command. Push to `main` deploys.
 
 ## Changelog
+- 2026-09-25: Three new cases inspired by famous novels (train, moor, island),
+  case picker, per-case saves, engine moved to support many cases
+  (js/cases/). All four cases play-tested headless: every clue and question
+  reachable, every item/person clickable, wrong and right accusations work.
 - 2026-09-25: Illustrated rooms (art.js + scenes.js). Items and people are
   clicked in the picture; the old item buttons are gone. Reading card sits
   under the picture; clue pop-up moved to the top.

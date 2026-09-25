@@ -1,11 +1,15 @@
 // main.js — the game engine: rooms, examining, interviews, notebook,
-// accusation. All story content comes from case.js.
+// accusation, case picker. All story content comes from the files in
+// js/cases/ (listed in cases.js); this file knows nothing about any story.
 
-import { CASE } from './case.js';
+import { CASES } from './cases.js';
 import { load, save, remove } from './storage.js';
 
-const SAVE_KEY = 'mm-save-' + CASE.id;
+const LAST_CASE_KEY = 'mm-last-case';
 const MAX_ACCUSATIONS = 3;
+
+let CASE = null;
+const saveKey = (c = CASE) => 'mm-save-' + c.id;
 
 const $ = (id) => document.getElementById(id);
 
@@ -35,8 +39,8 @@ function freshState() {
   };
 }
 
-let state = Object.assign(freshState(), load(SAVE_KEY, {}));
-const persist = () => save(SAVE_KEY, state);
+let state = null;
+const persist = () => save(saveKey(), state);
 
 const roomById = (id) => CASE.rooms.find((r) => r.id === id);
 const suspectById = (id) => CASE.suspects.find((s) => s.id === id);
@@ -190,7 +194,7 @@ function examine(r, it) {
 
 function portrait(s) {
   const initials = s.name.replace(/^(Lady|Lord|Dr\.|Miss|Mr\.|Mrs\.)\s+/, '').split(/\s+/).map((w) => w[0]).join('').slice(0, 2);
-  return el('span', { class: 'portrait portrait-' + s.id }, initials);
+  return el('span', { class: 'portrait', style: s.color ? `background:${s.color}` : null }, initials);
 }
 
 // ---------- interviews ----------
@@ -319,13 +323,13 @@ function submitAccusation(e) {
 
   const name = suspectById(pick.culprit).name;
   const lines = [
-    `You gather the household in the drawing room and name ${name}.`,
+    `${CASE.gather || 'You gather everyone together'} and name ${name}.`,
     right === 2 ? 'Close. Two parts of your case hold up, but one does not, and the room can feel it.'
       : right === 1 ? 'One part of your case holds. The rest falls apart under questioning.'
-      : 'Nothing you say survives the first question. The household exchange glances.',
-    `You have ${left} ${left === 1 ? 'chance' : 'chances'} left before dawn. Look again at the evidence.`,
+      : 'Nothing you say survives the first question. Glances are exchanged.',
+    `You have ${left} ${left === 1 ? 'chance' : 'chances'} left ${CASE.deadline || 'before help arrives'}. Look again at the evidence.`,
   ];
-  story(el('div', {}, el('h2', {}, 'Not quite, Inspector'), ...lines.map((l) => el('p', {}, l))),
+  story(el('div', {}, el('h2', {}, `Not quite, ${CASE.detective || 'Inspector'}`), ...lines.map((l) => el('p', {}, l))),
     [['Keep investigating', () => hide('story')]]);
 }
 
@@ -351,8 +355,9 @@ function showVerdict(won) {
       el('div', {}, el('strong', {}, String(tries)), el('span', {}, tries === 1 ? 'accusation' : 'accusations')),
     ),
   ), [
-    ['Play again', newGame],
-    ['Look around the house', () => hide('story')],
+    ['Choose another case', showCasePicker],
+    ['Play this case again', newGame],
+    ['Look around', () => hide('story')],
   ]);
 }
 
@@ -367,7 +372,7 @@ function story(content, buttons) {
 
 function showIntro() {
   story(el('div', {},
-    el('p', { class: 'eyebrow' }, 'A murder mystery'),
+    el('p', { class: 'eyebrow' }, CASE.inspiredBy ? `Inspired by ${CASE.inspiredBy}` : 'A murder mystery'),
     el('h1', { class: 'story-title' }, CASE.title),
     el('p', { class: 'tagline' }, CASE.tagline),
     ...CASE.intro.map((p) => el('p', {}, p)),
@@ -389,12 +394,54 @@ function showHelp() {
 }
 
 function newGame() {
-  remove(SAVE_KEY);
-  state = freshState();
-  persist();
+  remove(saveKey());
+  loadCase(CASE.id);
+}
+
+// ---------- cases ----------
+
+function caseStatus(c) {
+  const s = load(saveKey(c), null);
+  if (!s) return 'New';
+  if (s.solved) return 'Solved ✓';
+  if ((s.accusations || []).length >= MAX_ACCUSATIONS) return 'Unsolved';
+  return 'In progress';
+}
+
+function loadCase(id) {
+  CASE = CASES.find((c) => c.id === id) || CASES[0];
+  save(LAST_CASE_KEY, CASE.id);
+  state = Object.assign(freshState(), load(saveKey(), {}));
+  if (!roomById(state.room)) state.room = CASE.rooms[0].id;
+  sceneRoom = null;
+  interviewing = null;
+  nbTab = 'evidence';
+  $('case-title').textContent = CASE.title;
+  $('places-label').textContent = CASE.placesLabel || 'Places';
+  document.title = CASE.title + ' — Murder Mystery';
+  $('reading').hidden = true;
+  $('toast').hidden = true;
   hideAll();
+  renderAccuse();
   render();
-  showIntro();
+  if (!state.introSeen) showIntro();
+}
+
+function showCasePicker() {
+  const cards = CASES.map((c) => el('button', { class: 'case-card', onclick: () => loadCase(c.id) },
+    el('span', { class: 'case-art', style: `background:${c.cover || '#333'}` }, c.coverIcon || '✦'),
+    el('span', { class: 'case-text' },
+      el('strong', {}, c.title),
+      el('span', { class: 'case-meta' }, c.setting),
+      c.inspiredBy ? el('span', { class: 'case-meta' }, `Inspired by ${c.inspiredBy}`) : null,
+      el('span', { class: 'case-tag' }, c.tagline)),
+    el('span', { class: 'case-status' }, caseStatus(c)),
+  ));
+  story(el('div', {},
+    el('p', { class: 'eyebrow' }, 'Murder Mystery'),
+    el('h1', { class: 'story-title' }, 'Choose a case'),
+    el('div', { class: 'case-list' }, ...cards),
+  ), CASE ? [['Back to the current case', () => hide('story')]] : []);
 }
 
 function show(id) { $(id).hidden = false; }
@@ -419,13 +466,11 @@ function render() {
   renderNotebook();
 }
 
-$('case-title').textContent = CASE.title;
-document.title = CASE.title;
-
 $('btn-notebook').onclick = () => { renderNotebook(); show('notebook'); };
 $('btn-accuse').onclick = () => show('accuse');
 $('btn-help').onclick = showHelp;
-$('btn-new').onclick = () => { if (confirm('Start the case again from the beginning? Your progress will be lost.')) newGame(); };
+$('btn-cases').onclick = showCasePicker;
+$('btn-new').onclick = () => { if (confirm('Start this case again from the beginning? Your progress on it will be lost.')) newGame(); };
 $('nb-tabs').onclick = (e) => { if (e.target.dataset.tab) { nbTab = e.target.dataset.tab; renderNotebook(); } };
 $('accuse-form').onsubmit = submitAccusation;
 $('scene').addEventListener('click', onSceneClick);
@@ -443,10 +488,11 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { ['interview', 'notebook', 'accuse'].forEach(hide); $('reading').hidden = true; }
 });
 
-renderAccuse();
-render();
-if (!state.introSeen) showIntro();
+const params = new URLSearchParams(location.search);
+const startId = params.get('case') || load(LAST_CASE_KEY, null);
+if (startId && CASES.some((c) => c.id === startId)) loadCase(startId);
+else { loadCase(CASES[0].id); showCasePicker(); }
 
-if (new URLSearchParams(location.search).has('debug')) {
-  window.game = { CASE, get state() { return state; }, goTo, newGame, addClue, render };
+if (params.has('debug')) {
+  window.game = { get CASE() { return CASE; }, CASES, get state() { return state; }, loadCase, goTo, newGame, addClue, render };
 }

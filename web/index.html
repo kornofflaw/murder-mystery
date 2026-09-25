@@ -13,16 +13,17 @@
       <span id="case-title">Murder Mystery</span>
     </div>
     <nav class="actions">
+      <button id="btn-cases" class="btn btn-ghost">Cases</button>
       <button id="btn-notebook" class="btn">Notebook <span id="clue-count" class="badge">0</span></button>
       <button id="btn-accuse" class="btn btn-danger">Make an accusation</button>
       <button id="btn-help" class="btn btn-ghost" title="How to play">?</button>
-      <button id="btn-new" class="btn btn-ghost">New game</button>
+      <button id="btn-new" class="btn btn-ghost">Restart case</button>
     </nav>
   </header>
 
   <main class="layout">
     <aside class="map">
-      <h2>The house</h2>
+      <h2 id="places-label">Places</h2>
       <ul id="room-list"></ul>
     </aside>
 
@@ -85,7 +86,7 @@
     <div class="panel panel-wide">
       <button class="close" data-close>×</button>
       <h2>Name the killer</h2>
-      <p class="muted">You only get to be wrong so many times before the household stops listening.</p>
+      <p class="muted">You only get to be wrong so many times before people stop listening.</p>
       <form id="accuse-form">
         <fieldset><legend>Who did it?</legend><div id="acc-culprit" class="choices"></div></fieldset>
         <fieldset><legend>How was it done?</legend><div id="acc-method" class="choices"></div></fieldset>

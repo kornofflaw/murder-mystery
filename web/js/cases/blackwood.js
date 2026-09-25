@@ -9,13 +9,20 @@
 //   accusation   { methods[], motives[] }, solution { culprit, method, motive }
 //   scenes       { roomId: () => SVG string } — the room illustrations (scenes.js)
 
-import { SCENES } from './scenes.js';
+import { SCENES } from './blackwood-scenes.js';
 
 export const CASE = {
   scenes: SCENES,
   id: 'blackwood-1926',
   title: 'Death at Blackwood Manor',
-  tagline: 'Dartmoor, October 1926. A storm, a locked-in household, and a man dead at his desk.',
+  tagline: 'A storm, a locked-in household, and a man dead at his desk.',
+  setting: 'A country house on Dartmoor, October 1926',
+  cover: 'linear-gradient(135deg, #23392c, #5a1a1a)',
+  coverIcon: '🕯',
+  detective: 'Inspector',
+  placesLabel: 'The house',
+  gather: 'You gather the household in the drawing room',
+  deadline: 'before dawn',
 
   intro: [
     'The storm has flooded the lane and brought down the telephone line. You were only sheltering at Blackwood Manor for the night — a stranded inspector from Scotland Yard, grateful for a fire and a bed.',
@@ -162,7 +169,7 @@ export const CASE = {
 
   suspects: [
     {
-      id: 'margaret', name: 'Lady Margaret Blackwood', role: 'The widow', room: 'drawing',
+      id: 'margaret', color: '#4a5a7a', name: 'Lady Margaret Blackwood', role: 'The widow', room: 'drawing',
       bio: 'Fifty-eight, composed, and dry-eyed. Thirty years married to Edmund.',
       topics: [
         { id: 'alibi', q: 'Where were you between ten and eleven?', a: 'At the piano, here. Julian — Dr. Hale — turned the pages for me. Thomas brought coffee at half past ten. Ask him.' },
@@ -173,7 +180,7 @@ export const CASE = {
       ],
     },
     {
-      id: 'hale', name: 'Dr. Julian Hale', role: 'The family doctor', room: 'drawing',
+      id: 'hale', color: '#4f5a4a', name: 'Dr. Julian Hale', role: 'The family doctor', room: 'drawing',
       bio: 'Fifties, grey at the temples, careful with his words. Stranded here after dinner like you.',
       topics: [
         { id: 'alibi', q: 'Where were you between ten and eleven?', a: 'Here, with Lady Blackwood, from ten until Thomas raised the alarm. She played; I turned pages.' },
@@ -185,7 +192,7 @@ export const CASE = {
       ],
     },
     {
-      id: 'clara', name: 'Miss Clara Finch', role: 'The secretary', room: 'library',
+      id: 'clara', color: '#7a5a4a', name: 'Miss Clara Finch', role: 'The secretary', room: 'library',
       bio: 'Twenty-six, neat and nervous. Lord Blackwood’s secretary for four years.',
       topics: [
         { id: 'alibi', q: 'Where were you between ten and eleven?', a: 'At a quarter past ten I took his lordship some letters to sign. He was irritable, but perfectly well. I left at twenty past and worked here until the alarm.', gives: 't_clara' },
@@ -197,7 +204,7 @@ export const CASE = {
       ],
     },
     {
-      id: 'thomas', name: 'Thomas Reed', role: 'The butler', room: 'pantry',
+      id: 'thomas', color: '#5a5048', name: 'Thomas Reed', role: 'The butler', room: 'pantry',
       bio: 'Sixty, thirty years in service at Blackwood. Hands not quite steady tonight.',
       topics: [
         { id: 'brandy', q: 'Tell me about the brandy.', a: 'At ten o’clock, as every night, I took the decanter and one glass to the study and poured his lordship a measure. Then I brought the decanter back here.', gives: 't_brandy' },
@@ -209,7 +216,7 @@ export const CASE = {
       ],
     },
     {
-      id: 'victor', name: 'Victor Blackwood', role: 'The nephew', room: 'billiard',
+      id: 'victor', color: '#7a3a3a', name: 'Victor Blackwood', role: 'The nephew', room: 'billiard',
       bio: 'Thirty-one, handsome, easy-mannered, and very relaxed for a man whose uncle has just died.',
       topics: [
         { id: 'alibi', q: 'Where were you between ten and eleven?', a: 'Right here, old man. Knocking the balls about on my own. Didn’t see a soul.', gives: 't_victoralibi' },

@@ -252,3 +252,17 @@ legend { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-
   display: flex; justify-content: space-between; align-items: center; gap: 12px;
   margin-top: 10px; font-family: var(--sans); font-size: 13px; color: var(--text-soft);
 }
+
+/* ---------- case picker ---------- */
+.case-list { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.case-card {
+  display: grid; grid-template-columns: 84px 1fr auto; gap: 16px; align-items: center; text-align: left;
+  background: #221b16; border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 12px;
+}
+.case-card:hover { border-color: var(--gold); background: #2a211b; }
+.case-art { width: 84px; height: 84px; border-radius: 8px; display: grid; place-items: center; font-size: 38px; }
+.case-text { display: flex; flex-direction: column; gap: 2px; }
+.case-text strong { font-size: 21px; font-weight: normal; color: var(--gold); }
+.case-meta { font-family: var(--sans); font-size: 12px; color: var(--text-soft); letter-spacing: .04em; }
+.case-tag { font-style: italic; font-size: 15px; margin-top: 4px; }
+.case-status { font-family: var(--sans); font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: .1em; white-space: nowrap; }

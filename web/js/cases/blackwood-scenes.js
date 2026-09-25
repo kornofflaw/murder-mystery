@@ -5,7 +5,7 @@
 import {
   svg, hot, person, wall, stoneWall, woodFloor, flagFloor, rug, windowNight, door,
   fireplace, bookshelf, painting, glow, tableLamp, figure, rng, FLOOR,
-} from './art.js';
+} from '../art.js';
 
 const study = () => svg(`
   ${wall('#23392c', '#1f3327')}

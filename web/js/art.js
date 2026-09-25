@@ -38,6 +38,19 @@ export const DEFS = `
   <pattern id="p-rain" width="60" height="90" patternUnits="userSpaceOnUse">
     <path d="M10 0 l-8 24 M40 30 l-8 24 M25 60 l-8 24 M55 70 l-6 18" stroke="#9fb6cc" stroke-width="1.6" opacity=".45"/>
   </pattern>
+  <pattern id="p-snow" width="80" height="80" patternUnits="userSpaceOnUse">
+    <circle cx="10" cy="12" r="2.2" fill="#fff" opacity=".8"/><circle cx="52" cy="30" r="1.6" fill="#fff" opacity=".7"/>
+    <circle cx="30" cy="58" r="2.6" fill="#fff" opacity=".75"/><circle cx="70" cy="70" r="1.8" fill="#fff" opacity=".6"/>
+  </pattern>
+  <linearGradient id="g-moonsky" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#0a1020"/><stop offset=".7" stop-color="#1e2c40"/><stop offset="1" stop-color="#3a4656"/>
+  </linearGradient>
+  <linearGradient id="g-fog" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#b8c4cc" stop-opacity="0"/><stop offset=".5" stop-color="#b8c4cc" stop-opacity=".45"/><stop offset="1" stop-color="#b8c4cc" stop-opacity=".15"/>
+  </linearGradient>
+  <linearGradient id="g-sea" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#1a2a36"/><stop offset="1" stop-color="#0a141c"/>
+  </linearGradient>
   <radialGradient id="g-glow">
     <stop offset="0" stop-color="#ffd58a" stop-opacity=".55"/>
     <stop offset=".5" stop-color="#ffb24a" stop-opacity=".16"/>
@@ -137,12 +150,19 @@ export function rug(cx, y1, y2, wBack, wFront, color, border = '#c9a45c') {
   return `<polygon points="${p(0)}" fill="${border}" opacity=".8"/><polygon points="${p(10)}" fill="${color}"/><polygon points="${p(26)}" fill="none" stroke="${border}" stroke-width="3" opacity=".6"/>`;
 }
 
-export function windowNight(x, y, w, h, { curtain = '#5a1a1a', frame = '#2a1a0e' } = {}) {
+export function windowNight(x, y, w, h, { curtain = '#5a1a1a', frame = '#2a1a0e', weather = 'rain', view = 'trees' } = {}) {
   let s = `<rect x="${x - 14}" y="${y - 14}" width="${w + 28}" height="${h + 28}" fill="${frame}"/>`;
   s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#g-night)"/>`;
-  s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#p-rain)"/>`;
-  // trees beyond, blown in the storm
-  s += `<path d="M${x} ${y + h} Q${x + w * .2} ${y + h * .55} ${x + w * .35} ${y + h * .7} T${x + w * .7} ${y + h * .6} T${x + w} ${y + h * .75} V${y + h} Z" fill="#05090f" opacity=".9"/>`;
+  if (view === 'mountains') {
+    s += `<path d="M${x} ${y + h * .7} L${x + w * .25} ${y + h * .3} L${x + w * .45} ${y + h * .55} L${x + w * .7} ${y + h * .2} L${x + w} ${y + h * .6} V${y + h} H${x} Z" fill="#c8d4e0" opacity=".85"/>`;
+    s += `<path d="M${x} ${y + h * .85} Q${x + w * .5} ${y + h * .75} ${x + w} ${y + h * .85} V${y + h} H${x} Z" fill="#e8eef4"/>`;
+  } else if (view === 'sea') {
+    s += `<rect x="${x}" y="${y + h * .55}" width="${w}" height="${h * .45}" fill="url(#g-sea)"/>`;
+    s += `<path d="M${x} ${y + h * .62} q${w * .1} -8 ${w * .2} 0 t${w * .2} 0 t${w * .2} 0 t${w * .2} 0 t${w * .2} 0" stroke="#9fb6cc" stroke-opacity=".5" stroke-width="3" fill="none"/>`;
+  } else {
+    s += `<path d="M${x} ${y + h} Q${x + w * .2} ${y + h * .55} ${x + w * .35} ${y + h * .7} T${x + w * .7} ${y + h * .6} T${x + w} ${y + h * .75} V${y + h} Z" fill="#05090f" opacity=".9"/>`;
+  }
+  s += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#p-${weather})"/>`;
   s += `<rect x="${x + w / 2 - 5}" y="${y}" width="10" height="${h}" fill="${frame}"/>`;
   s += `<rect x="${x}" y="${y + h * .45}" width="${w}" height="10" fill="${frame}"/>`;
   s += `<rect x="${x - 26}" y="${y + h + 10}" width="${w + 52}" height="14" fill="#4a3322"/>`;
@@ -271,4 +291,23 @@ export function figure(x, y, s, o = {}) {
   else b += `<path d="M-30 -362 Q-32 -400 0 -400 Q32 -400 30 -362 Q24 -382 0 -384 Q-18 -384 -30 -362 Z" fill="${hair}"/>`;
   if (o.extra) b += o.extra;
   return `<g transform="translate(${x} ${y}) scale(${s})">${b}</g>`;
+}
+
+// Night sky with a moon, for outdoor scenes.
+export function nightSky(horizon = 560, { moon = [1250, 150], stars = true } = {}) {
+  let s = `<rect width="${W}" height="${horizon + 40}" fill="url(#g-moonsky)"/>`;
+  if (stars) {
+    const r = rng(99);
+    for (let i = 0; i < 70; i++) s += `<circle cx="${(r() * W).toFixed(0)}" cy="${(r() * horizon * .7).toFixed(0)}" r="${(r() * 1.6 + .4).toFixed(1)}" fill="#fff" opacity="${(r() * .6 + .2).toFixed(2)}"/>`;
+  }
+  if (moon) {
+    s += `<circle cx="${moon[0]}" cy="${moon[1]}" r="120" fill="#e8e4c8" opacity=".08"/>`;
+    s += `<circle cx="${moon[0]}" cy="${moon[1]}" r="46" fill="#efe9cc"/>`;
+    s += `<circle cx="${moon[0] + 14}" cy="${moon[1] - 8}" r="9" fill="#d8d2b4" opacity=".6"/><circle cx="${moon[0] - 12}" cy="${moon[1] + 14}" r="6" fill="#d8d2b4" opacity=".6"/>`;
+  }
+  return s;
+}
+
+export function fog(y = 560, h = 260, opacity = 1) {
+  return `<rect x="0" y="${y}" width="${W}" height="${h}" fill="url(#g-fog)" opacity="${opacity}" pointer-events="none"/>`;
 }
