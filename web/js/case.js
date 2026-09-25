@@ -7,8 +7,12 @@
 //   suspects[]   { id, name, role, room, bio, topics[] }
 //   topic        { id, q, a, requires?: [clueIds], gives?: clueId }
 //   accusation   { methods[], motives[] }, solution { culprit, method, motive }
+//   scenes       { roomId: () => SVG string } — the room illustrations (scenes.js)
+
+import { SCENES } from './scenes.js';
 
 export const CASE = {
+  scenes: SCENES,
   id: 'blackwood-1926',
   title: 'Death at Blackwood Manor',
   tagline: 'Dartmoor, October 1926. A storm, a locked-in household, and a man dead at his desk.',

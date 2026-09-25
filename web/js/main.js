@@ -112,11 +112,62 @@ function renderRoom() {
     );
   }));
 
-  $('items').replaceChildren(...r.items.map((it) => {
-    const done = state.examined.includes(r.id + '/' + it.id);
-    return el('button', { class: 'item' + (done ? ' done' : ''), onclick: () => examine(r, it) },
-      it.name, done ? el('span', { class: 'tick' }, ' ✓') : null);
-  }));
+  renderScene(r);
+}
+
+// ---------- the illustrated scene ----------
+
+let sceneRoom = null;
+
+function renderScene(r) {
+  const box = $('scene');
+  if (sceneRoom !== r.id) {
+    sceneRoom = r.id;
+    const draw = CASE.scenes?.[r.id];
+    box.innerHTML = draw ? draw() : '';
+    box.classList.remove('hints');
+    $('scene-label').hidden = true;
+  }
+  let done = 0;
+  box.querySelectorAll('[data-item]').forEach((g) => {
+    const d = state.examined.includes(r.id + '/' + g.dataset.item);
+    g.classList.toggle('done', d);
+    if (d) done++;
+  });
+  $('scene-count').textContent = `Examined ${done} of ${r.items.length} things in this room.`;
+}
+
+function sceneTarget(e) {
+  return e.target.closest?.('[data-item], [data-person]');
+}
+
+function onSceneClick(e) {
+  const g = sceneTarget(e);
+  if (!g) return;
+  if (g.dataset.person) return openInterview(g.dataset.person);
+  const r = roomById(state.room);
+  const it = r.items.find((i) => i.id === g.dataset.item);
+  if (it) examine(r, it);
+}
+
+function onSceneMove(e) {
+  const g = sceneTarget(e);
+  const label = $('scene-label');
+  if (!g) { label.hidden = true; return; }
+  const wrap = $('scene').getBoundingClientRect();
+  const examined = g.dataset.item && state.examined.includes(state.room + '/' + g.dataset.item);
+  label.textContent = g.dataset.name + (g.dataset.person ? ' — talk' : examined ? ' ✓' : '');
+  label.hidden = false;
+  label.style.left = (e.clientX - wrap.left) + 'px';
+  label.style.top = (e.clientY - wrap.top) + 'px';
+}
+
+let hintTimer = 0;
+function flashHints() {
+  const box = $('scene');
+  box.classList.add('hints');
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => box.classList.remove('hints'), 3000);
 }
 
 function examine(r, it) {
@@ -126,6 +177,7 @@ function examine(r, it) {
   persist();
   const box = $('reading');
   box.replaceChildren(
+    el('button', { class: 'close', onclick: () => { box.hidden = true; } }, '×'),
     el('h4', {}, it.name),
     el('p', {}, it.text),
     it.clue ? el('p', { class: 'reading-note' }, gotNew ? '✎ Added to your notebook.' : '✎ Already in your notebook.') : null,
@@ -327,8 +379,8 @@ function showHelp() {
     el('h2', {}, 'How to play'),
     el('ul', { class: 'help' },
       el('li', {}, 'Pick a room on the left to go there.'),
-      el('li', {}, 'Click things under “Look closer” to examine them. Clues go into your notebook.'),
-      el('li', {}, 'Click a person to question them. New questions appear as you find evidence (a red dot on a room means someone there has something new to be asked).'),
+      el('li', {}, 'Click things in the picture to examine them. Clues go into your notebook. Stuck? “Highlight things to examine” shows what you have not looked at yet.'),
+      el('li', {}, 'Click a person in the picture (or their card) to question them. New questions appear as you find evidence (a red dot on a room means someone there has something new to be asked).'),
       el('li', {}, 'The Notebook sorts everything into evidence, testimony, and a timeline.'),
       el('li', {}, `When you are sure, make an accusation: who, how, and why. You get ${MAX_ACCUSATIONS} tries.`),
       el('li', {}, 'Your progress saves automatically in this browser.'),
@@ -376,6 +428,10 @@ $('btn-help').onclick = showHelp;
 $('btn-new').onclick = () => { if (confirm('Start the case again from the beginning? Your progress will be lost.')) newGame(); };
 $('nb-tabs').onclick = (e) => { if (e.target.dataset.tab) { nbTab = e.target.dataset.tab; renderNotebook(); } };
 $('accuse-form').onsubmit = submitAccusation;
+$('scene').addEventListener('click', onSceneClick);
+$('scene').addEventListener('mousemove', onSceneMove);
+$('scene').addEventListener('mouseleave', () => { $('scene-label').hidden = true; });
+$('btn-hint').onclick = flashHints;
 
 document.querySelectorAll('.overlay').forEach((o) => {
   o.addEventListener('click', (e) => {
@@ -384,7 +440,7 @@ document.querySelectorAll('.overlay').forEach((o) => {
   });
 });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') ['interview', 'notebook', 'accuse'].forEach(hide);
+  if (e.key === 'Escape') { ['interview', 'notebook', 'accuse'].forEach(hide); $('reading').hidden = true; }
 });
 
 renderAccuse();

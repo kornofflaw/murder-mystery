@@ -77,9 +77,9 @@ h3 {
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); opacity: .7; }
 .dot-talk { background: var(--blood-2); opacity: 1; }
 
-.room { padding: 32px 48px 64px; overflow-y: auto; max-width: 980px; }
-.room h1 { font-size: 40px; color: var(--gold); margin-bottom: 10px; }
-.room-desc { font-size: 20px; color: var(--text); max-width: 46em; margin: 0; }
+.room { padding: 20px 40px 48px; overflow-y: auto; max-width: 980px; }
+.room h1 { font-size: 34px; color: var(--gold); margin-bottom: 4px; }
+.room-desc { font-size: 18px; color: var(--text); max-width: 46em; margin: 0; }
 
 .people { display: flex; flex-wrap: wrap; gap: 12px; }
 .person {
@@ -206,7 +206,7 @@ legend { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-
 .help li { margin-bottom: 8px; }
 
 .toast {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20;
+  position: fixed; top: 76px; left: 50%; transform: translateX(-50%); z-index: 20;
   background: var(--gold); color: #1b140d; padding: 10px 18px; border-radius: 6px;
   font-family: var(--sans); font-size: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.5);
 }
@@ -214,11 +214,41 @@ legend { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-
 .flash { animation: flash .6s ease-out; }
 @keyframes flash { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .toast.flash { animation: toastIn .3s ease-out; }
-@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
 
 @media (max-width: 800px) {
   .layout { grid-template-columns: 1fr; }
   .map { border-right: 0; border-bottom: 1px solid var(--line); }
   .room { padding: 24px 16px; }
   .choices { grid-template-columns: 1fr; }
+}
+
+/* ---------- illustrated scene ---------- */
+.room { max-width: 1240px; }
+.scene-wrap { position: relative; margin-top: 16px; }
+.scene {
+  border-radius: 10px; overflow: hidden; border: 1px solid var(--line);
+  box-shadow: 0 12px 40px rgba(0,0,0,.5); background: #000; line-height: 0;
+  aspect-ratio: 16 / 9; width: min(100%, calc((100vh - 290px) * 16 / 9)); min-width: min(100%, 560px);
+}
+.scene-svg { display: block; width: 100%; height: 100%; }
+.scene .hot { cursor: pointer; transition: filter .15s; }
+.scene .hot:hover { filter: brightness(1.35) drop-shadow(0 0 10px rgba(255, 214, 120, .9)); }
+.scene .hot.done:hover { filter: brightness(1.15) drop-shadow(0 0 6px rgba(255, 214, 120, .5)); }
+.scene.hints .hot:not(.done) { animation: hint 1s ease-in-out infinite alternate; }
+@keyframes hint {
+  from { filter: drop-shadow(0 0 2px rgba(255, 214, 120, .4)); }
+  to   { filter: brightness(1.4) drop-shadow(0 0 16px rgba(255, 214, 120, 1)); }
+}
+.scene-label {
+  position: absolute; transform: translate(14px, -130%); pointer-events: none; z-index: 2;
+  background: rgba(20, 16, 12, .92); color: var(--text); border: 1px solid var(--gold);
+  font-family: var(--sans); font-size: 13px; padding: 4px 10px; border-radius: 4px; white-space: nowrap;
+}
+#reading { position: relative; margin-top: 14px; max-width: none; }
+.reading .close { top: 6px; right: 10px; font-size: 24px; }
+.scene-bar {
+  max-width: calc((100vh - 290px) * 16 / 9); min-width: min(100%, 560px);
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  margin-top: 10px; font-family: var(--sans); font-size: 13px; color: var(--text-soft);
 }

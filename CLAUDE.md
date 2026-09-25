@@ -30,7 +30,12 @@ Deployed on Vercel; a push to `main` deploys (project root directory = `web`).
    clue and every question must be reachable.
 3. Wrap all `localStorage` access in the helpers in `storage.js` (it can throw).
    Progress saves per case under `mm-save-<case id>`.
-4. **No build step.** Plain ES modules served as static files. No runtime CDN
+4. **Every room item is clickable in its picture.** Each item in case.js has a
+   matching `hot(id, ...)` in scenes.js, and each suspect in a room a
+   `person(id, ...)`. Art is drawn in code as SVG (no image files yet); the
+   canvas is 1600x900 with the floor line at y=640. The headless check must
+   confirm every item and person has a visible, clickable area.
+5. **No build step.** Plain ES modules served as static files. No runtime CDN
    loads; if a library is ever needed, vendor it into `web/vendor/`.
 
 ## Layout
@@ -41,6 +46,8 @@ web/               the app; deploy this folder as-is
   style.css
   js/main.js       engine: rooms, examine, interviews, notebook, accusation, saving
   js/case.js       "Death at Blackwood Manor": clues, rooms, suspects, solution
+  js/scenes.js     that case's room illustrations (SVG drawn in code, one per room)
+  js/art.js        shared drawing helpers: walls, floors, windows, furniture, figures
   js/storage.js    safe localStorage helpers
 ```
 
