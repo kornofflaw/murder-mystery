@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Murder Mystery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <span id="case-title">Murder Mystery</span>
+    </div>
+    <nav class="actions">
+      <button id="btn-notebook" class="btn">Notebook <span id="clue-count" class="badge">0</span></button>
+      <button id="btn-accuse" class="btn btn-danger">Make an accusation</button>
+      <button id="btn-help" class="btn btn-ghost" title="How to play">?</button>
+      <button id="btn-new" class="btn btn-ghost">New game</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <aside class="map">
+      <h2>The house</h2>
+      <ul id="room-list"></ul>
+    </aside>
+
+    <section class="room" id="room">
+      <h1 id="room-name"></h1>
+      <p id="room-desc" class="room-desc"></p>
+
+      <div id="people-wrap">
+        <h3>People here</h3>
+        <div id="people" class="people"></div>
+      </div>
+
+      <h3>Look closer</h3>
+      <div id="items" class="items"></div>
+
+      <article id="reading" class="reading" hidden></article>
+    </section>
+  </main>
+
+  <!-- Interview drawer -->
+  <div id="interview" class="overlay" hidden>
+    <div class="panel panel-wide">
+      <button class="close" data-close>×</button>
+      <div class="interview-head">
+        <div id="iv-portrait" class="portrait"></div>
+        <div>
+          <h2 id="iv-name"></h2>
+          <div id="iv-role" class="role"></div>
+          <p id="iv-bio" class="bio"></p>
+        </div>
+      </div>
+      <div id="iv-log" class="iv-log"></div>
+      <h3>Ask about</h3>
+      <div id="iv-topics" class="topics"></div>
+    </div>
+  </div>
+
+  <!-- Notebook -->
+  <div id="notebook" class="overlay" hidden>
+    <div class="panel panel-wide">
+      <button class="close" data-close>×</button>
+      <h2>Notebook</h2>
+      <div class="tabs" id="nb-tabs">
+        <button data-tab="evidence" class="tab active">Evidence</button>
+        <button data-tab="testimony" class="tab">Testimony</button>
+        <button data-tab="timeline" class="tab">Timeline</button>
+        <button data-tab="people" class="tab">People</button>
+      </div>
+      <div id="nb-body" class="nb-body"></div>
+    </div>
+  </div>
+
+  <!-- Accusation -->
+  <div id="accuse" class="overlay" hidden>
+    <div class="panel panel-wide">
+      <button class="close" data-close>×</button>
+      <h2>Name the killer</h2>
+      <p class="muted">You only get to be wrong so many times before the household stops listening.</p>
+      <form id="accuse-form">
+        <fieldset><legend>Who did it?</legend><div id="acc-culprit" class="choices"></div></fieldset>
+        <fieldset><legend>How was it done?</legend><div id="acc-method" class="choices"></div></fieldset>
+        <fieldset><legend>Why?</legend><div id="acc-motive" class="choices"></div></fieldset>
+        <button type="submit" class="btn btn-danger btn-big">Accuse</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Story screens: intro, verdict, help -->
+  <div id="story" class="overlay overlay-dark" hidden>
+    <div class="panel panel-story">
+      <div id="story-body"></div>
+      <div id="story-buttons" class="story-buttons"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
