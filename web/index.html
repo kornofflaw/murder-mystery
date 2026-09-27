@@ -32,6 +32,17 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;ba
 .notebook-entry b{color:#f0e4c7}
 .notebook-entry p{margin:5px 0 0;color:#adb8c1;line-height:1.45;font-size:.92rem}
 .notebook-empty{border:1px dashed #3b4650;border-radius:12px;padding:20px;color:#929da7;text-align:center}
+
+/* iteration 4: theory board */
+.theory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.theory-col{border:1px solid #35414c;background:#0f151b;border-radius:14px;padding:14px}
+.theory-col h3{margin:0 0 8px;color:var(--gold2);font-size:1rem}
+.theory-col select{width:100%;background:#171e25;color:var(--text);border:1px solid #46525e;border-radius:10px;padding:10px;font:inherit}
+.suspect-notes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.suspect-note{border-left:3px solid var(--gold);background:#10161c;padding:9px 10px;border-radius:8px;color:#b8c1c9;font-size:.84rem;line-height:1.4}
+.suspect-note b{color:#eee;display:block}
+.theory-status{margin-top:12px;padding:10px;border-radius:10px;background:#151d24;color:#b9c4cc;font-size:.9rem}
+@media(max-width:760px){.theory-grid{grid-template-columns:1fr}.suspect-notes{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -50,6 +61,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;ba
       <div class="actions" style="margin-top:10px;justify-content:flex-end">
         <button class="ghost" id="caseBrief">Case brief</button>
         <button class="ghost" id="openNotebook">Notebook <span id="notebookBadge">0</span></button>
+        <button class="ghost" id="openTheory">Theory board</button>
         <a class="linkbtn primary" href="full-case.html">Full case mode</a>
         <button class="ghost" id="markAllScene">Mark scene complete</button>
         <button class="danger" id="resetProgress">Reset progress</button>
@@ -115,6 +127,28 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;ba
     <p>The notebook records only evidence you have marked in the animated scenes. Suspicion is not proof; compare physical clues across rooms before forming a theory.</p>
     <div class="notebook-list" id="notebookList"></div>
     <div class="story-actions"><button class="primary" id="notebookClose">Return to investigation</button></div>
+  </div>
+</div>
+
+<div class="story-overlay" id="theoryModal" hidden>
+  <div class="story-panel" role="dialog" aria-modal="true" aria-labelledby="theoryTitle">
+    <div class="story-kicker">Working hypothesis</div>
+    <h2 id="theoryTitle">Build your theory</h2>
+    <p>A strong case must explain <b>who</b>, <b>how</b>, and <b>why</b> without ignoring contradictory evidence. This board saves your current hypothesis but does not tell you whether it is right.</p>
+    <div class="theory-grid">
+      <div class="theory-col"><h3>Who?</h3><select id="theoryWho"><option value="">Choose a suspect…</option><option value="margaret">Lady Margaret Blackwood</option><option value="hale">Dr. Julian Hale</option><option value="clara">Clara Finch</option><option value="thomas">Thomas Reed</option><option value="victor">Victor Blackwood</option></select></div>
+      <div class="theory-col"><h3>How?</h3><select id="theoryHow"><option value="">Choose a method…</option><option value="heart">Natural heart failure</option><option value="vial">Digitalis from the doctor's vial</option><option value="decanter">Poison in the shared decanter</option><option value="foxglove">Homemade foxglove poison in the glass</option></select></div>
+      <div class="theory-col"><h3>Why?</h3><select id="theoryWhy"><option value="">Choose a motive…</option><option value="money">Inheritance and urgent gambling debts</option><option value="love">Freedom to pursue a hidden romance</option><option value="bequest">A promised benefit under the new will</option><option value="theft">Conceal theft from the wine cellar</option></select></div>
+    </div>
+    <div class="suspect-notes">
+      <div class="suspect-note"><b>Lady Margaret</b>Potential inheritance and a private relationship. Test motive against opportunity and physical evidence.</div>
+      <div class="suspect-note"><b>Dr. Hale</b>Knows digitalis and foxglove. Distinguish expertise from access to the actual poison source.</div>
+      <div class="suspect-note"><b>Clara Finch</b>Near the study and aware of household movements. Separate what she saw from what she could have done.</div>
+      <div class="suspect-note"><b>Thomas Reed</b>Handled the brandy and has a secret in the cellar books. Compare the decanter with the victim's glass.</div>
+      <div class="suspect-note"><b>Victor Blackwood</b>Money trouble and a disputed alibi. Compare his story with the billiard room, boot room, and greenhouse.</div>
+    </div>
+    <div class="theory-status" id="theoryStatus">No theory saved yet.</div>
+    <div class="story-actions"><button class="ghost" id="theoryClose">Close</button><button class="primary" id="saveTheory">Save working theory</button></div>
   </div>
 </div>
 <script>
@@ -198,6 +232,26 @@ $('prevBtn').onclick=()=>{ if(state.scene>0){ state.scene--; save(); render(); }
 $('nextBtn').onclick=()=>{ if(state.scene<SCENES.length-1){ state.scene++; save(); render(); } };
 $('markAllScene').onclick=()=>{ foundForScene(state.scene).fill(true); save(); addLog(`Marked all required clues in ${SCENES[state.scene].title}.`); render(); };
 $('resetProgress').onclick=()=>{ if(confirm('Reset all clue progress for this case?')){ state.scene=0; state.found={}; save(); logEl.innerHTML=''; render(); } };
+
+
+function closeTheory(){ $('theoryModal').hidden=true; }
+function loadTheoryUI(){
+  const t=state.theory||{};
+  $('theoryWho').value=t.who||''; $('theoryHow').value=t.how||''; $('theoryWhy').value=t.why||'';
+  const labels=[];
+  if(t.who) labels.push($('theoryWho').selectedOptions[0]?.textContent);
+  if(t.how) labels.push($('theoryHow').selectedOptions[0]?.textContent);
+  if(t.why) labels.push($('theoryWhy').selectedOptions[0]?.textContent);
+  $('theoryStatus').textContent=labels.length===3 ? 'Saved theory: '+labels.join(' · ') : 'Choose all three parts to create a complete working theory.';
+}
+$('openTheory').onclick=()=>{ loadTheoryUI(); $('theoryModal').hidden=false; };
+$('theoryClose').onclick=closeTheory;
+$('theoryModal').addEventListener('click',(e)=>{ if(e.target===$('theoryModal')) closeTheory(); });
+$('saveTheory').onclick=()=>{
+  state.theory={who:$('theoryWho').value,how:$('theoryHow').value,why:$('theoryWhy').value};
+  save(); loadTheoryUI();
+  addLog('Working theory updated.');
+};
 
 function closeNotebook(){ $('notebookModal').hidden=true; }
 function renderNotebook(){
