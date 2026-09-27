@@ -34,6 +34,10 @@ The original murder-mystery game remains untouched on `main`. This branch reuses
 9. Pixel-art sprites, furniture, weather, lighting, and tile sets.
 10. Touch/controller support after keyboard gameplay is stable.
 
+## Preview isolation
+
+Draft PR #1 is used only to generate and verify branch previews. It must remain unmerged while this version diverges from the original investigation game.
+
 ## Local entry point
 
 `web/roguelike/index.html`
