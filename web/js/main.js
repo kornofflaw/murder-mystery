@@ -479,10 +479,36 @@ function toast(msg) {
 
 // ---------- wiring ----------
 
+function renderCaseProgress() {
+  const total = Object.keys(CASE.clues).length || 1;
+  const found = state.clues.length;
+  const ratio = found / total;
+  const pct = Math.round(ratio * 100);
+  const phases = ratio < .25
+    ? ['Initial examination', 'Search broadly. Establish the physical facts before trusting anyone\'s explanation.']
+    : ratio < .55
+      ? ['Reconstructing movements', 'Compare testimony with rooms, sightlines, weather, and the emerging timeline.']
+      : ratio < .8
+        ? ['Testing theories', 'Look for evidence that eliminates plausible alternatives, not merely facts that create suspicion.']
+        : ['Building the case', 'You have enough material to test a complete culprit, method, and motive theory.'];
+  if ($('progress-phase')) $('progress-phase').textContent = phases[0];
+  if ($('progress-detail')) $('progress-detail').textContent = phases[1];
+  if ($('progress-percent')) $('progress-percent').textContent = pct + '%';
+  if ($('progress-fill')) $('progress-fill').style.width = pct + '%';
+  if ($('accuse-readiness')) {
+    $('accuse-readiness').textContent = ratio < .35
+      ? 'Your case is still thin. You may accuse now, but several rooms may contain evidence that changes the theory.'
+      : ratio < .7
+        ? 'You have a workable body of evidence. Check competing explanations before committing.'
+        : 'Your notebook is substantial. Make sure your accusation explains the timeline as well as the motive.';
+  }
+}
+
 function render() {
   renderRooms();
   renderRoom();
   renderNotebook();
+  renderCaseProgress();
 }
 
 $('btn-notebook').onclick = () => { renderNotebook(); show('notebook'); };
@@ -505,6 +531,12 @@ document.querySelectorAll('.overlay').forEach((o) => {
 });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { ['interview', 'notebook', 'accuse'].forEach(hide); $('reading').hidden = true; }
+  if (['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
+  const overlaysOpen = [...document.querySelectorAll('.overlay')].some((o) => !o.hidden);
+  if (overlaysOpen) return;
+  if (e.key.toLowerCase() === 'n') $('btn-notebook').click();
+  if (e.key.toLowerCase() === 'h') flashHints();
+  if (e.key.toLowerCase() === 'a') $('btn-accuse').click();
 });
 
 const params = new URLSearchParams(location.search);
