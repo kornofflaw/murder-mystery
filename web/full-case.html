@@ -13,6 +13,7 @@
       <span id="case-title">Death at Blackwood Manor</span>
     </div>
     <nav class="actions">
+      <a class="btn btn-ghost" href="./" aria-label="Return to animated investigation">Animated scenes</a>
       <button id="btn-cases" class="btn btn-ghost">Cases</button>
       <button id="btn-notebook" class="btn">Notebook <span id="clue-count" class="badge">0</span></button>
       <button id="btn-accuse" class="btn btn-danger">Make an accusation</button>
@@ -20,6 +21,7 @@
       <button id="btn-new" class="btn btn-ghost">Restart case</button>
     </nav>
   </header>
+  <div class="case-progress" aria-live="polite"><div><span id="progress-phase">Initial examination</span><small id="progress-detail">Search the house and test each story against physical evidence.</small></div><div class="case-progress-meter"><span id="progress-fill"></span></div><strong id="progress-percent">0%</strong></div>
 
   <main class="layout">
     <aside class="map">
@@ -86,7 +88,7 @@
     <div class="panel panel-wide">
       <button class="close" data-close>×</button>
       <h2>Name the killer</h2>
-      <p class="muted">You only get to be wrong so many times before people stop listening.</p>
+      <p class="muted">Build a complete case: identify who, how, and why. A persuasive accusation should fit both the physical evidence and the timeline.</p><p id="accuse-readiness" class="accuse-readiness"></p>
       <form id="accuse-form">
         <fieldset><legend>Who did it?</legend><div id="acc-culprit" class="choices"></div></fieldset>
         <fieldset><legend>How was it done?</legend><div id="acc-method" class="choices"></div></fieldset>
