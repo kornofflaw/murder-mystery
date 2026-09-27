@@ -278,3 +278,31 @@ legend { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-
   from { stroke: rgba(255, 214, 120, .2); fill: rgba(255, 214, 120, 0); }
   to   { stroke: rgba(255, 214, 120, 1); fill: rgba(255, 214, 120, .16); }
 }
+
+/* ---------- investigation progress / accessibility polish ---------- */
+.case-progress {
+  position: sticky; top: 54px; z-index: 8;
+  display: grid; grid-template-columns: minmax(240px, 1fr) minmax(140px, 360px) auto;
+  gap: 16px; align-items: center; padding: 9px 20px;
+  background: rgba(28, 22, 18, .96); border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px); font-family: var(--sans);
+}
+.case-progress div:first-child { display: flex; flex-direction: column; gap: 2px; }
+.case-progress #progress-phase { color: var(--gold); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.case-progress small { color: var(--text-soft); font-size: 11px; line-height: 1.35; }
+.case-progress-meter { height: 6px; overflow: hidden; border-radius: 999px; background: #120f0c; border: 1px solid #4a3b2e; }
+.case-progress-meter span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blood-2), var(--gold)); transition: width .35s ease; }
+.case-progress strong { color: var(--gold); font-weight: normal; font-size: 13px; }
+.accuse-readiness { padding: 10px 12px; border-left: 3px solid var(--gold); background: rgba(194,154,91,.08); color: var(--text-soft); font-size: 14px; line-height: 1.45; }
+.btn:focus-visible,.tab:focus-visible,.case-card:focus-visible,.room-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+@media (max-width: 800px) {
+  .case-progress { position: static; grid-template-columns: 1fr auto; }
+  .case-progress-meter { grid-column: 1 / -1; grid-row: 2; }
+  .topbar .actions { gap: 5px; }
+  .topbar .btn { min-height: 42px; }
+  .scene { min-width: 0; width: 100%; }
+  .scene-bar { min-width: 0; width: 100%; align-items: stretch; flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
