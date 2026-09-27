@@ -316,3 +316,14 @@ legend { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; text-
 .clue h4 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .timeline li { position: relative; }
 .timeline li::before { content: ""; position: absolute; left: -17px; top: .55em; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 3px rgba(194,154,91,.12); }
+
+/* ---------- iteration 5: interview and accusation hierarchy ---------- */
+.interview-head { padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.iv-log { scroll-behavior: smooth; }
+.qa { border-left: 2px solid transparent; transition: border-color .15s ease, background .15s ease; }
+.qa:hover { border-left-color: var(--gold); background: rgba(194,154,91,.04); }
+.topic { min-height: 44px; }
+.topic-evidence { border-color: rgba(159,45,45,.65); }
+fieldset { border-radius: 8px; }
+.choice { min-height: 44px; }
+#accuse-form .btn-big { width: 100%; margin-top: 8px; }
