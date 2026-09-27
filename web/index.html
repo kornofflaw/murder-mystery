@@ -313,6 +313,17 @@ $('submitAccuse').onclick=()=>{
 };
 
 function closeTheory(){ $('theoryModal').hidden=true; }
+function validateTheoryInputs(showDraft=true){
+  const who=$('theoryWho').value, how=$('theoryHow').value, why=$('theoryWhy').value;
+  const complete=!!(who&&how&&why);
+  $('saveTheory').disabled=!complete;
+  if(showDraft){
+    $('theoryStatus').textContent=complete
+      ? 'Complete draft ready to save. Check that every choice is supported by evidence.'
+      : 'Choose all three parts to create a complete working theory.';
+  }
+  return complete;
+}
 function loadTheoryUI(){
   const t=state.theory||{};
   $('theoryWho').value=t.who||''; $('theoryHow').value=t.how||''; $('theoryWhy').value=t.why||'';
@@ -320,12 +331,15 @@ function loadTheoryUI(){
   if(t.who) labels.push($('theoryWho').selectedOptions[0]?.textContent);
   if(t.how) labels.push($('theoryHow').selectedOptions[0]?.textContent);
   if(t.why) labels.push($('theoryWhy').selectedOptions[0]?.textContent);
+  validateTheoryInputs(false);
   $('theoryStatus').textContent=labels.length===3 ? 'Saved theory: '+labels.join(' · ') : 'Choose all three parts to create a complete working theory.';
 }
 $('openTheory').onclick=()=>{ loadTheoryUI(); $('theoryModal').hidden=false; };
 $('theoryClose').onclick=closeTheory;
 $('theoryModal').addEventListener('click',(e)=>{ if(e.target===$('theoryModal')) closeTheory(); });
+['theoryWho','theoryHow','theoryWhy'].forEach(id=>$(id).addEventListener('change',()=>validateTheoryInputs(true)));
 $('saveTheory').onclick=()=>{
+  if(!validateTheoryInputs(true)) return;
   state.theory={who:$('theoryWho').value,how:$('theoryHow').value,why:$('theoryWhy').value};
   save(); loadTheoryUI();
   addLog('Working theory updated.');
