@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Blackwood Manor: Nightfall</title><link rel="stylesheet" href="./style.css"></head>
+<body><main class="shell">
+<header class="topbar"><div><div class="eyebrow">DEATH AT BLACKWOOD MANOR · NIGHTFALL</div><h1>Blackwood Manor: Nightfall</h1></div>
+<div class="status-strip" aria-label="Investigation status"><span>Time <b id="time">10:05 PM</b></span><span>Resolve <b id="resolve">8</b></span><span>Clues <b id="clues">0</b>/<b id="clue-total">0</b></span><span>Seed <b id="seed">—</b></span></div></header>
+<section class="game-layout"><div class="viewport-wrap"><canvas id="game" width="960" height="640" tabindex="0" aria-label="Isometric Blackwood Manor investigation"></canvas>
+<div class="room-card"><strong id="room-name">Great Hall</strong><span id="room-desc">Storm-bound Blackwood Manor</span></div>
+<div class="prompt" id="prompt">WASD / arrows to move · E or Enter to investigate</div>
+<div class="touch" aria-label="Touch controls"><button data-move="0,-1">▲</button><button data-move="-1,0">◀</button><button id="touch-act">◎</button><button data-move="1,0">▶</button><button data-move="0,1">▼</button></div></div>
+<aside class="sidebar"><section><h2>Objective</h2><p id="objective">Search the manor. Build a defensible theory before dawn.</p><div class="meter"><i id="dawn-meter"></i></div></section>
+<section><h2>Case Notebook</h2><div class="tabs"><button data-tab="evidence" class="active">Evidence</button><button data-tab="people">People</button><button data-tab="theory">Theory</button></div><div id="notebook"></div></section>
+<section><h2>Controls</h2><p>Move: WASD / arrows · Investigate: E / Enter · Notebook: N · Restart: R</p></section></aside></section>
+<section class="event-log" aria-live="polite"><h2>Investigation log</h2><div id="log"></div></section></main>
+<dialog id="dialog"><form method="dialog"><div class="dialog-kicker" id="dialog-kicker">INVESTIGATION</div><h2 id="dialog-title">Discovery</h2><p id="dialog-text"></p><div id="dialog-actions"></div><menu><button value="close">Continue</button></menu></form></dialog>
+<script type="module" src="./game.js"></script></body></html>
