@@ -1,99 +1,31 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Death at Blackwood Manor — Full Case</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Death at Blackwood Manor — Full Case</title><link rel="stylesheet" href="style.css">
+  <style>
+    .room-identity{margin-bottom:14px;padding:12px 16px 14px;border-left:4px solid var(--gold);background:linear-gradient(90deg,rgba(201,164,92,.11),transparent);border-radius:0 10px 10px 0}
+    .room-kicker{display:block;margin-bottom:2px;font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--text-soft)}
+    .map-key{margin:0 4px 14px;color:var(--text-soft);font-family:var(--sans);font-size:10px;line-height:1.5}
+    .key-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin:0 3px 0 6px}.key-dot:first-child{margin-left:0}.key-evidence{background:var(--gold)}.key-talk{background:var(--blood-2)}
+    .scene-wrap::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05),inset 0 -90px 100px -90px rgba(0,0,0,.75)}
+    .scene-corner{position:absolute;z-index:3;left:12px;bottom:12px;pointer-events:none;display:flex;flex-direction:column;gap:1px;max-width:min(430px,calc(100% - 24px));padding:7px 10px;border:1px solid rgba(201,164,92,.35);border-radius:6px;background:rgba(14,11,9,.78);backdrop-filter:blur(5px);font-family:var(--sans)}
+    .scene-corner span{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.scene-corner small{color:#d8cdbd;font-size:10px;line-height:1.3}
+    .scene .hot-photo:not(.done):hover .hot-box{fill:rgba(255,214,120,.18);stroke-width:4;filter:drop-shadow(0 0 7px rgba(255,214,120,.65))}
+    .scene .hot-person:hover .hot-box{fill:rgba(176,42,42,.10);stroke:rgba(232,115,115,.95);filter:drop-shadow(0 0 7px rgba(176,42,42,.55))}
+    .scene .hot.done{opacity:.78}.scene .hot.done:hover{opacity:1}.scene-count{font-weight:600}#btn-hint{border-color:rgba(201,164,92,.45)}
+    .reading{box-shadow:0 10px 30px rgba(0,0,0,.22)}.room-btn.current{box-shadow:inset 3px 0 0 var(--gold),0 5px 16px rgba(0,0,0,.18)}.room-btn.current .room-label{font-weight:700}
+    @media(max-width:800px){.room-identity{margin:0 0 12px;padding:10px 12px}.room-identity h1{font-size:clamp(27px,8vw,34px)}.map{padding:12px}.map ul{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x proximity}.map li{flex:0 0 auto;scroll-snap-align:start}.room-btn{min-height:44px;width:auto;white-space:nowrap;border:1px solid var(--line)}.map-key{margin-bottom:8px}.scene-corner{left:7px;right:7px;bottom:7px;max-width:none}.scene-corner small{display:none}.scene-bar .btn{min-height:44px}}
+    @media(pointer:coarse){.scene .hot-photo .hot-box{stroke:rgba(255,214,120,.12);stroke-width:4}.scene .hot-person .hot-box{stroke:rgba(232,115,115,.12)}}
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-mark">✦</span>
-      <span id="case-title">Death at Blackwood Manor</span>
-    </div>
-    <nav class="actions">
-      <a class="btn btn-ghost" href="./" aria-label="Return to animated investigation">Animated scenes</a>
-      <button id="btn-cases" class="btn btn-ghost">Cases</button>
-      <button id="btn-notebook" class="btn">Notebook <span id="clue-count" class="badge">0</span></button>
-      <button id="btn-accuse" class="btn btn-danger">Make an accusation</button>
-      <button id="btn-help" class="btn btn-ghost" title="How to play">?</button>
-      <button id="btn-new" class="btn btn-ghost">Restart case</button>
-    </nav>
-  </header>
-  <div class="case-progress" aria-live="polite"><div><span id="progress-phase">Initial examination</span><small id="progress-detail">Search the house and test each story against physical evidence.</small></div><div class="case-progress-meter"><span id="progress-fill"></span></div><strong id="progress-percent">0%</strong></div>
-
-  <main class="layout">
-    <aside class="map">
-      <h2 id="places-label">Places</h2>
-      <p class="map-key"><span class="key-dot key-evidence"></span> Unexamined object <span class="key-dot key-talk"></span> New interview lead</p>
-      <ul id="room-list"></ul>
-    </aside>
-
-    <section class="room" id="room">
-      <div class="room-identity" aria-live="polite">
-        <span class="room-kicker">Current location</span>
-        <h1 id="room-name"></h1>
-        <p id="room-desc" class="room-desc"></p>
-      </div>
-
-      <div class="scene-wrap">
-        <div id="scene" class="scene"></div>
-        <div id="scene-label" class="scene-label" hidden></div>
-        <div class="scene-corner" aria-hidden="true"><span>Investigate the room</span><small>Hover or tap objects • people can be questioned</small></div>
-      </div>
-      <div class="scene-bar">
-        <span id="scene-count" class="scene-count"></span>
-        <button id="btn-hint" class="btn btn-ghost">Highlight things to examine</button>
-      </div>
-      <article id="reading" class="reading" hidden></article>
-
-      <div id="people-wrap">
-        <h3>People here</h3>
-        <div id="people" class="people"></div>
-      </div>
-    </section>
-  </main>
-
-  <div id="interview" class="overlay" hidden>
-    <div class="panel panel-wide">
-      <button class="close" data-close>×</button>
-      <div class="interview-head">
-        <div id="iv-portrait" class="portrait"></div>
-        <div><h2 id="iv-name"></h2><div id="iv-role" class="role"></div><p id="iv-bio" class="bio"></p></div>
-      </div>
-      <div id="iv-log" class="iv-log"></div>
-      <h3>Ask about</h3><div id="iv-topics" class="topics"></div>
-    </div>
-  </div>
-
-  <div id="notebook" class="overlay" hidden>
-    <div class="panel panel-wide">
-      <button class="close" data-close>×</button>
-      <h2>Notebook</h2>
-      <div class="tabs" id="nb-tabs">
-        <button data-tab="evidence" class="tab active">Evidence</button><button data-tab="testimony" class="tab">Testimony</button><button data-tab="timeline" class="tab">Timeline</button><button data-tab="people" class="tab">People</button>
-      </div>
-      <div id="nb-body" class="nb-body"></div>
-    </div>
-  </div>
-
-  <div id="accuse" class="overlay" hidden>
-    <div class="panel panel-wide">
-      <button class="close" data-close>×</button>
-      <h2>Name the killer</h2>
-      <p class="muted">Build a complete case: identify who, how, and why. A persuasive accusation should fit both the physical evidence and the timeline.</p><p id="accuse-readiness" class="accuse-readiness"></p>
-      <form id="accuse-form">
-        <fieldset><legend>Who did it?</legend><div id="acc-culprit" class="choices"></div></fieldset>
-        <fieldset><legend>How was it done?</legend><div id="acc-method" class="choices"></div></fieldset>
-        <fieldset><legend>Why?</legend><div id="acc-motive" class="choices"></div></fieldset>
-        <button type="submit" class="btn btn-danger btn-big">Accuse</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="story" class="overlay overlay-dark" hidden><div class="panel panel-story"><div id="story-body"></div><div id="story-buttons" class="story-buttons"></div></div></div>
-  <div id="toast" class="toast" hidden></div>
-  <script type="module" src="js/main.js"></script>
-</body>
-</html>
+<header class="topbar"><div class="brand"><span class="brand-mark">✦</span><span id="case-title">Death at Blackwood Manor</span></div><nav class="actions"><a class="btn btn-ghost" href="./" aria-label="Return to animated investigation">Animated scenes</a><button id="btn-cases" class="btn btn-ghost">Cases</button><button id="btn-notebook" class="btn">Notebook <span id="clue-count" class="badge">0</span></button><button id="btn-accuse" class="btn btn-danger">Make an accusation</button><button id="btn-help" class="btn btn-ghost" title="How to play">?</button><button id="btn-new" class="btn btn-ghost">Restart case</button></nav></header>
+<div class="case-progress" aria-live="polite"><div><span id="progress-phase">Initial examination</span><small id="progress-detail">Search the house and test each story against physical evidence.</small></div><div class="case-progress-meter"><span id="progress-fill"></span></div><strong id="progress-percent">0%</strong></div>
+<main class="layout"><aside class="map"><h2 id="places-label">Places</h2><p class="map-key"><span class="key-dot key-evidence"></span> Unexamined object <span class="key-dot key-talk"></span> New interview lead</p><ul id="room-list"></ul></aside>
+<section class="room" id="room"><div class="room-identity" aria-live="polite"><span class="room-kicker">Current location</span><h1 id="room-name"></h1><p id="room-desc" class="room-desc"></p></div><div class="scene-wrap"><div id="scene" class="scene"></div><div id="scene-label" class="scene-label" hidden></div><div class="scene-corner" aria-hidden="true"><span>Investigate the room</span><small>Hover or tap objects • people can be questioned</small></div></div><div class="scene-bar"><span id="scene-count" class="scene-count"></span><button id="btn-hint" class="btn btn-ghost">Highlight things to examine</button></div><article id="reading" class="reading" hidden></article><div id="people-wrap"><h3>People here</h3><div id="people" class="people"></div></div></section></main>
+<div id="interview" class="overlay" hidden><div class="panel panel-wide"><button class="close" data-close>×</button><div class="interview-head"><div id="iv-portrait" class="portrait"></div><div><h2 id="iv-name"></h2><div id="iv-role" class="role"></div><p id="iv-bio" class="bio"></p></div></div><div id="iv-log" class="iv-log"></div><h3>Ask about</h3><div id="iv-topics" class="topics"></div></div></div>
+<div id="notebook" class="overlay" hidden><div class="panel panel-wide"><button class="close" data-close>×</button><h2>Notebook</h2><div class="tabs" id="nb-tabs"><button data-tab="evidence" class="tab active">Evidence</button><button data-tab="testimony" class="tab">Testimony</button><button data-tab="timeline" class="tab">Timeline</button><button data-tab="people" class="tab">People</button></div><div id="nb-body" class="nb-body"></div></div></div>
+<div id="accuse" class="overlay" hidden><div class="panel panel-wide"><button class="close" data-close>×</button><h2>Name the killer</h2><p class="muted">Build a complete case: identify who, how, and why. A persuasive accusation should fit both the physical evidence and the timeline.</p><p id="accuse-readiness" class="accuse-readiness"></p><form id="accuse-form"><fieldset><legend>Who did it?</legend><div id="acc-culprit" class="choices"></div></fieldset><fieldset><legend>How was it done?</legend><div id="acc-method" class="choices"></div></fieldset><fieldset><legend>Why?</legend><div id="acc-motive" class="choices"></div></fieldset><button type="submit" class="btn btn-danger btn-big">Accuse</button></form></div></div>
+<div id="story" class="overlay overlay-dark" hidden><div class="panel panel-story"><div id="story-body"></div><div id="story-buttons" class="story-buttons"></div></div></div><div id="toast" class="toast" hidden></div><script type="module" src="js/main.js"></script>
+</body></html>
