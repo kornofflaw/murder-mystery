@@ -50,8 +50,13 @@ const askedOf = (sid) => state.asked[sid] || [];
 
 function addClue(id) {
   if (!id || hasClue(id)) return false;
+  const before = CASE.suspects.reduce((n, s) => n + newQuestions(s), 0);
   state.clues.push(id);
-  toast((CASE.clues[id].kind === 'testimony' ? 'Testimony noted: ' : 'Evidence noted: ') + CASE.clues[id].title);
+  const clue = CASE.clues[id];
+  const after = CASE.suspects.reduce((n, s) => n + newQuestions(s), 0);
+  const unlocked = Math.max(0, after - before);
+  toast((clue.kind === 'testimony' ? 'Testimony noted: ' : 'Evidence noted: ') + clue.title +
+    (unlocked ? ` • ${unlocked} new interview ${unlocked === 1 ? 'lead' : 'leads'}` : ''));
   return true;
 }
 
@@ -76,6 +81,8 @@ function renderRooms() {
     const li = el('li', {},
       el('button', {
         class: 'room-btn' + (r.id === state.room ? ' current' : '') + (state.visited.includes(r.id) ? '' : ' unvisited'),
+        'aria-current': r.id === state.room ? 'location' : null,
+        'aria-label': `${r.name}. ${left ? left + ' unexamined ' + (left === 1 ? 'object' : 'objects') + '.' : 'Room searched.'}${talk ? ' New interview lead available.' : ''}`,
         onclick: () => goTo(r.id),
       },
         el('span', { class: 'room-label' }, r.name),
@@ -107,7 +114,7 @@ function renderRoom() {
   $('people-wrap').hidden = people.length === 0;
   $('people').replaceChildren(...people.map((s) => {
     const n = newQuestions(s);
-    return el('button', { class: 'person', onclick: () => openInterview(s.id) },
+    return el('button', { class: 'person', 'aria-label': `Question ${s.name}, ${s.role}${n ? '. ' + n + ' new ' + (n === 1 ? 'question' : 'questions') : ''}`, onclick: () => openInterview(s.id) },
       portrait(s),
       el('span', { class: 'person-text' },
         el('strong', {}, s.name),
@@ -156,7 +163,7 @@ function photoScene(r, p) {
     const s = suspectById(id);
     return s ? `<g class="hot hot-photo hot-person" data-person="${id}" data-name="${esc(s.name)}">${box(rect)}</g>` : '';
   }).join('');
-  return `<svg viewBox="0 0 ${p.w} ${p.h}" xmlns="http://www.w3.org/2000/svg" class="scene-svg" role="img">` +
+  return `<svg viewBox="0 0 ${p.w} ${p.h}" xmlns="http://www.w3.org/2000/svg" class="scene-svg" role="img" aria-label="${esc(r.name)} investigation scene"><title>${esc(r.name)} — investigate objects and people in the scene</title>` +
     `<image href="${p.src}" width="${p.w}" height="${p.h}"/>${people}${items}</svg>`;
 }
 
@@ -201,9 +208,12 @@ function examine(r, it) {
   const box = $('reading');
   box.replaceChildren(
     el('button', { class: 'close', onclick: () => { box.hidden = true; } }, '×'),
+    el('p', { class: 'eyebrow' }, r.name + ' • examined'),
     el('h4', {}, it.name),
     el('p', {}, it.text),
-    it.clue ? el('p', { class: 'reading-note' }, gotNew ? '✎ Added to your notebook.' : '✎ Already in your notebook.') : null,
+    it.clue ? el('div', { class: 'evidence-result' },
+      el('strong', {}, CASE.clues[it.clue]?.title || 'Evidence'),
+      el('p', {}, gotNew ? 'Added to your notebook. Check interviews for any newly unlocked questions.' : 'Already recorded in your notebook.')) : null,
   );
   box.hidden = false;
   box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
@@ -222,6 +232,7 @@ let interviewing = null;
 
 function openInterview(sid) {
   interviewing = sid;
+  const returnFocus = document.activeElement;
   const s = suspectById(sid);
   $('iv-portrait').replaceWith(Object.assign(portrait(s), { id: 'iv-portrait' }));
   $('iv-portrait').classList.add('portrait-big');
@@ -230,6 +241,8 @@ function openInterview(sid) {
   $('iv-bio').textContent = s.bio;
   renderInterview();
   show('interview');
+  $('interview').dataset.returnFocus = returnFocus?.id || '';
+  setTimeout(() => $('iv-topics').querySelector('button')?.focus() || $('interview').querySelector('.close')?.focus(), 0);
 }
 
 function renderInterview() {
@@ -241,6 +254,7 @@ function renderInterview() {
     return el('div', { class: 'qa' },
       el('p', { class: 'q' }, t.q),
       el('p', { class: 'a' }, t.a),
+      t.requires?.length ? el('p', { class: 'qa-basis' }, 'Asked after evidence: ' + t.requires.map((id) => CASE.clues[id]?.title || id).join(', ')) : null,
     );
   }));
   if (!asked.length) log.append(el('p', { class: 'muted' }, 'They wait for your first question.'));
@@ -248,7 +262,7 @@ function renderInterview() {
   const open = s.topics.filter((t) => topicOpen(t) && !asked.includes(t.id));
   $('iv-topics').replaceChildren(
     ...open.map((t) => el('button', { class: 'topic' + (t.requires ? ' topic-evidence' : ''), onclick: () => ask(s, t) },
-      t.requires ? el('span', { class: 'topic-tag' }, 'Evidence') : null, t.q)),
+      t.requires ? el('span', { class: 'topic-tag', title: 'This question was unlocked by evidence you discovered.' }, 'Evidence unlocked') : null, t.q)),
   );
   if (!open.length) {
     $('iv-topics').append(el('p', { class: 'muted' }, 'Nothing more to ask for now. Find more evidence and come back.'));
@@ -280,7 +294,11 @@ function renderNotebook() {
     const list = found.filter((c) => c.kind === nbTab);
     if (!list.length) body.append(el('p', { class: 'muted' }, nbTab === 'evidence' ? 'Nothing yet. Examine things in each room.' : 'Nothing yet. Question the household.'));
     for (const c of list) {
+      const source = evidenceSource(c.id);
       body.append(el('div', { class: 'clue' },
+        el('div', { class: 'clue-head' },
+          el('span', { class: 'clue-kind' }, c.kind === 'evidence' ? 'Physical evidence' : 'Testimony'),
+          source ? el('span', { class: 'clue-source' }, source) : null),
         el('h4', {}, c.title, c.time ? el('span', { class: 'time' }, fmtTime(c.time)) : null),
         el('p', {}, c.text)));
     }
@@ -303,6 +321,16 @@ function renderNotebook() {
     }
   }
   $('clue-count').textContent = state.clues.length;
+}
+
+function evidenceSource(id) {
+  for (const r of CASE.rooms) {
+    if (r.items.some((it) => it.clue === id)) return r.name;
+  }
+  for (const s of CASE.suspects) {
+    if (s.topics.some((t) => t.gives === id)) return s.name;
+  }
+  return '';
 }
 
 function fmtTime(t) {
