@@ -3,7 +3,11 @@ const ctx = canvas.getContext('2d', { alpha:false });
 ctx.imageSmoothingEnabled = false;
 
 const ui = {
-  turns: document.querySelector('#turns'),
+  time: document.querySelector('#time'),
+  seed: document.querySelector('#seed'),
+  roomName: document.querySelector('#room-name'),
+  roomDesc: document.querySelector('#room-desc'),
+  dawnMeter: document.querySelector('#dawn-meter'),
   resolve: document.querySelector('#resolve'),
   clues: document.querySelector('#clues'),
   clueTotal: document.querySelector('#clue-total'),
@@ -82,11 +86,32 @@ const roomZones = [
   {name:'Greenhouse',x0:1,y0:13,x1:5,y1:15,tint:'#3f5747'},
 ];
 
+const DAWN_TURN = 96;
+const roomDescriptions = {
+  'Study':'A dying fire, a silent desk, and rain at the latched window.',
+  'Library':'Tall shelves and typed correspondence overlook the hall.',
+  'Billiard Room':'Cold ash and green baize sit beneath a lonely lamp.',
+  'Great Hall':'Portraits watch the wet flagstones and branching corridors.',
+  'Drawing Room':'Piano music has stopped; the fire still holds some warmth.',
+  'Pantry':'Silver, glassware, and the household stores crowd narrow counters.',
+  'Boot Room':'Rain blows beneath the garden door among coats and riding gear.',
+  'Greenhouse':'Stormwater streams down glass around orchids and foxglove.'
+};
 let state;
+
+function makeSeed(){
+  const p=new URLSearchParams(location.search).get('seed');
+  return (p||Math.random().toString(36).slice(2,8)).toUpperCase();
+}
+function clockText(){
+  const mins=22*60+5+state.turns*5;
+  const h=Math.floor((mins%(24*60))/60), m=mins%60;
+  return `${((h+11)%12)+1}:${String(m).padStart(2,'0')} ${h>=12?'PM':'AM'}`;
+}
 
 function reset(){
   state = {
-    x:8,y:8,turns:0,resolve:8,
+    x:8,y:8,turns:0,resolve:8,seed:makeSeed(),
     found:new Set(),seen:new Set(),talked:new Set(),
     log:['The lane is flooded. Dawn is hours away. You begin in the Great Hall.'],
   };
@@ -239,6 +264,8 @@ function move(dx,dy){
     render();return;
   }
   state.x=nx;state.y=ny;state.turns++;
+  if(state.turns===72) addLog('Midnight approaches. The flooded lane will reopen at dawn.');
+  if(state.turns===88) addLog('Dawn is close. Finish the strongest lines of inquiry.');
   if(state.turns>0&&state.turns%12===0){
     state.resolve=Math.max(0,state.resolve-1);
     addLog('The storm wears on. Your resolve slips.');
@@ -298,7 +325,11 @@ function syncLog(){
 }
 
 function syncUI(){
-  ui.turns.textContent=state.turns;ui.resolve.textContent=state.resolve;
+  ui.time.textContent=clockText();ui.seed.textContent=state.seed;ui.resolve.textContent=state.resolve;
+  const room=roomAt(state.x,state.y);ui.roomName.textContent=room?.name||'Servants’ Passage';
+  ui.roomDesc.textContent=roomDescriptions[room?.name]||'A narrow passage links the household rooms.';
+  ui.dawnMeter.style.width=`${Math.min(100,state.turns/DAWN_TURN*100)}%`;
+  ui.dawnMeter.parentElement?.setAttribute('aria-label',`${Math.max(0,DAWN_TURN-state.turns)} turns until dawn`);
   ui.clues.textContent=state.found.size;ui.clueTotal.textContent=clues.length;
   const found=clues.filter(c=>state.found.has(c.id));
   ui.notebook.replaceChildren();
@@ -326,6 +357,8 @@ window.addEventListener('keydown',e=>{
   else if(key==='n'){e.preventDefault();ui.notebook.scrollIntoView({behavior:'smooth',block:'center'});}
 });
 
+document.querySelectorAll('[data-move]').forEach(btn=>btn.addEventListener('click',()=>move(...btn.dataset.move.split(',').map(Number))));
+document.querySelector('#touch-act')?.addEventListener('click',interact);
 canvas.addEventListener('click',()=>canvas.focus());
 ui.dialog.addEventListener('close',()=>canvas.focus());
 
