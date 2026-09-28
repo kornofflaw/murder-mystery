@@ -26,16 +26,21 @@
   <main class="layout">
     <aside class="map">
       <h2 id="places-label">Places</h2>
+      <p class="map-key"><span class="key-dot key-evidence"></span> Unexamined object <span class="key-dot key-talk"></span> New interview lead</p>
       <ul id="room-list"></ul>
     </aside>
 
     <section class="room" id="room">
-      <h1 id="room-name"></h1>
-      <p id="room-desc" class="room-desc"></p>
+      <div class="room-identity" aria-live="polite">
+        <span class="room-kicker">Current location</span>
+        <h1 id="room-name"></h1>
+        <p id="room-desc" class="room-desc"></p>
+      </div>
 
       <div class="scene-wrap">
         <div id="scene" class="scene"></div>
         <div id="scene-label" class="scene-label" hidden></div>
+        <div class="scene-corner" aria-hidden="true"><span>Investigate the room</span><small>Hover or tap objects • people can be questioned</small></div>
       </div>
       <div class="scene-bar">
         <span id="scene-count" class="scene-count"></span>
@@ -50,40 +55,29 @@
     </section>
   </main>
 
-  <!-- Interview drawer -->
   <div id="interview" class="overlay" hidden>
     <div class="panel panel-wide">
       <button class="close" data-close>×</button>
       <div class="interview-head">
         <div id="iv-portrait" class="portrait"></div>
-        <div>
-          <h2 id="iv-name"></h2>
-          <div id="iv-role" class="role"></div>
-          <p id="iv-bio" class="bio"></p>
-        </div>
+        <div><h2 id="iv-name"></h2><div id="iv-role" class="role"></div><p id="iv-bio" class="bio"></p></div>
       </div>
       <div id="iv-log" class="iv-log"></div>
-      <h3>Ask about</h3>
-      <div id="iv-topics" class="topics"></div>
+      <h3>Ask about</h3><div id="iv-topics" class="topics"></div>
     </div>
   </div>
 
-  <!-- Notebook -->
   <div id="notebook" class="overlay" hidden>
     <div class="panel panel-wide">
       <button class="close" data-close>×</button>
       <h2>Notebook</h2>
       <div class="tabs" id="nb-tabs">
-        <button data-tab="evidence" class="tab active">Evidence</button>
-        <button data-tab="testimony" class="tab">Testimony</button>
-        <button data-tab="timeline" class="tab">Timeline</button>
-        <button data-tab="people" class="tab">People</button>
+        <button data-tab="evidence" class="tab active">Evidence</button><button data-tab="testimony" class="tab">Testimony</button><button data-tab="timeline" class="tab">Timeline</button><button data-tab="people" class="tab">People</button>
       </div>
       <div id="nb-body" class="nb-body"></div>
     </div>
   </div>
 
-  <!-- Accusation -->
   <div id="accuse" class="overlay" hidden>
     <div class="panel panel-wide">
       <button class="close" data-close>×</button>
@@ -98,16 +92,8 @@
     </div>
   </div>
 
-  <!-- Story screens: intro, verdict, help -->
-  <div id="story" class="overlay overlay-dark" hidden>
-    <div class="panel panel-story">
-      <div id="story-body"></div>
-      <div id="story-buttons" class="story-buttons"></div>
-    </div>
-  </div>
-
+  <div id="story" class="overlay overlay-dark" hidden><div class="panel panel-story"><div id="story-body"></div><div id="story-buttons" class="story-buttons"></div></div></div>
   <div id="toast" class="toast" hidden></div>
-
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
